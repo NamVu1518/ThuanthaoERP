@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="relationship_form_view" model="ir.ui.view">
+            <field name="name">worker.relationship.form</field>
+            <field name="model">worker.relationship</field>
+            <field name="arch" type="xml">
+                <form string="Relationship">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Type relationship"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="relationship_list_view" model="ir.ui.view">
+            <field name="name">worker.relationship.list</field>
+            <field name="model">worker.relationship</field>
+            <field name="arch" type="xml">
+                <list string="Relationship List">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="relationship_act_window" model="ir.actions.act_window">
+            <field name="name">Relationship</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">worker.relationship</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No data to list
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_relationship" name="Relationship"
+                  parent="menu_worker_root" action="relationship_act_window" groups="worker.group_worker_manager"/>
+    </data>
+</odoo>

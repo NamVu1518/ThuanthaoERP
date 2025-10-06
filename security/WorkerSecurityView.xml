@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="worker_security">
+            <field name="name">Worker Security</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="group_worker_guest" model="res.groups">
+            <field name="name">Guest</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="worker_security"/>
+        </record>
+
+        <record id="group_worker_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="worker_security"/>
+            <field name="implied_ids" eval="[(4, ref('group_worker_guest'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_worker_guest_rule" model="ir.rule">
+            <field name="name">Worker Guest Record Rule</field>
+            <field ref="model_worker_worker" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <!-- You can attach this rule to a specific group, Or make it Global -->
+            <field name="groups" eval="[(4, ref('group_worker_guest'))]"/>
+            <!--<field name="global" eval="1"/> -->
+        </record>
+    </data>
+</odoo>

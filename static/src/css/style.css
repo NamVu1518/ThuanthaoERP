@@ -1,0 +1,28 @@
+.o_form_view .oe_avatar {
+    float: none !important;   /* bỏ float */
+    display: block !important; /* để nó là block */
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.o_form_view .o_inner_group span .o_field_widget,
+.o_form_view .o_inner_group .o_field_boolean .o_field_widget,
+.o_form_view .o_inner_group .oe_avatar .o_field_widget,
+.o_form_view .o_inner_group .o_form_uri .o_field_widget {
+    width: 100%;
+}
+
+.o_form_view .oe_avatar > div > div > span > button {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.o_form_view .oe_avatar .img {
+    width: 50% !important;
+    aspect-ratio: 2 / 3 !important;
+    height: auto !important;
+}
+
+.o_field_image > div {
+    text-align: center !important;
+}

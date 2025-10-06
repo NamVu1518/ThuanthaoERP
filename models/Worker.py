@@ -1,0 +1,460 @@
+from odoo import api, fields, models
+from datetime import date
+from dateutil.relativedelta import relativedelta
+from docxtpl import DocxTemplate, InlineImage, RichText
+from docx.shared import Cm
+import base64
+from io import BytesIO
+import os
+from odoo.addons.worker.utils import NoAccentVietnamese
+from odoo.addons.worker.utils import FormatDateForTaiwanFormat
+from odoo.addons.worker.utils import Var
+
+
+class Worker(models.Model):
+    _name = 'worker.worker'
+    _description = 'The table for the worker'
+
+    #image
+    image = fields.Binary()
+
+    #Form information
+    name = fields.Char(
+        string="Name",
+        required=True,
+        translate=True
+    )
+    state = fields.Selection(
+        [
+            ("ab", "ABM: New"),
+            ("nn", "NNM: Abroad come back"),
+            ("tw", "TWM: Taiwan come back"),
+            ("cd", "CDM: Designation")
+        ],
+        string="State",
+        default='ab'
+    )
+    source = fields.Many2one(
+        "worker.source",
+        string="Source",
+    )
+    code = fields.Char(
+        store=True,
+        readonly=True,
+        compute='_compute_code',
+        string="Code"
+    )
+    age = fields.Integer(
+        string="Age",
+        compute="_compute_age",
+        store=True,
+        readonly=True
+    )
+    gender = fields.Selection(
+        [
+            ("mal", "male"),
+            ("fem", "female")
+        ],
+        string="Gender",
+        default="mal"
+    )
+    idn = fields.Char(string="Identification Number")
+    date_of_issue = fields.Date(string="Date of Issue")
+    place_of_issue = fields.Many2one(
+        "worker.province",
+        string="Place Of Issue"
+    )
+    religion = fields.Many2one(
+        "worker.religion",
+        string="Religion"
+    )
+    dob = fields.Date(string="Date Of Birth")
+    pob = fields.Many2one(
+        "worker.province",
+        string="Place of birth"
+    )
+
+    #Contact information
+    phone_worker = fields.Char(string="Phone")
+    province = fields.Many2one(
+        "worker.province",
+        string="Province"
+    )
+    district = fields.Many2one(
+        "worker.district",
+        domain="[('province_id', '=', province)]",
+        string="District"
+    )
+    address = fields.Char(string="Address")
+
+    #Health information
+    height = fields.Integer(string="Height")
+    weight = fields.Integer(string="Weight")
+    vision = fields.Many2many(
+        "worker.vision.condition",
+        "worker_vision_rel",
+        "worker_id",
+        "condition_id",
+        string="Vision Condition"
+    )
+    r_hand = fields.Selection(
+        [
+            ("rig", "Right"),
+            ("lef", "Left")
+        ],
+        string="Right Hand",
+        default="rig"
+    )
+    is_alcoholic = fields.Boolean(string="Is Drink Alcohol")
+    is_smoking = fields.Boolean(string="Is Smoking")
+    is_tattoo = fields.Boolean(string="Is Tattoo")
+    has_limb_disability = fields.Boolean(string="Limb disability")
+    has_cosmetic_surgery = fields.Boolean(string="Cosmetic surgery")
+
+    #Personal Information
+    is_demobilized_soldier = fields.Boolean(string="Is Demobilized Soldier")
+    marital_status = fields.Selection(
+        [
+            ("sin", "Single"),
+            ("mar", "Married"),
+            ("div", "Divorce"),
+        ],
+        string="Marital Status",
+        default="sin"
+    )
+    year_mar_status = fields.Char(string="Year Married (Divorce, Separated)", default="2000")
+
+    #Educational information
+    edu_background = fields.Selection(
+        [
+            ("non", "None"),
+            ("pri", "Primary Education"),
+            ("mid", "Middle school"),
+            ("hig", "High school"),
+            ("vol", "Vocational"),
+            ("col", "College"),
+            ("uni", "University")
+        ],
+        string="Education Background",
+        default="hig"
+    )
+    major = fields.Many2one(
+        "worker.major",
+        string="Major",
+    )
+    gra_year = fields.Char(string="Graduation year")
+    eng_pro = fields.Selection(
+        [
+            ("low", "Don't Know"),
+            ("ave", "Little Bit"),
+            ("hig", "Good"),
+        ],
+        string="English Proficiency",
+        default="low",
+    )
+    chi_pro = fields.Selection(
+        [
+            ("low", "Don't Know"),
+            ("ave", "Little Bit"),
+            ("hig", "Good"),
+        ],
+        string="Chinese Proficiency",
+        default="low",
+    )
+
+    #Worker Relative
+    father_name = fields.Char(string="Father Name")
+    father_birth = fields.Integer(string="Birth Year")
+    father_age = fields.Integer(
+        readonly=True,
+        compute="_compute_age_relatives",
+        string="Age"
+    )
+    father_job = fields.Many2one(
+        "worker.job",
+        string = "Job",
+    )
+    # ----
+    mother_name = fields.Char(string="Mother Name")
+    mother_birth = fields.Integer(string="Birth Year")
+    mother_age = fields.Integer(
+        readonly=True,
+        compute="_compute_age_relatives",
+        string="Age"
+    )
+    mother_job = fields.Many2one(
+        "worker.job",
+        string="Job",
+    )
+    #---
+    partner_name = fields.Char(string="Partner Name")
+    partner_birth = fields.Integer(string="Birth Year")
+    partner_age = fields.Integer(
+        readonly=True,
+        compute="_compute_age_relatives",
+        string="Age"
+    )
+    partner_job = fields.Many2one(
+        "worker.job",
+        string="Job",
+    )
+    #---
+    children_ids = fields.One2many(
+        "worker.children",
+        "worker_id",
+        string="Children Info"
+    )
+    #---
+    relative_in_Taiwan_name = fields.Char(string="Relative In Taiwan Name")
+    relationship_with_relative_in_Taiwan = fields.Many2one(
+        "worker.relationship",
+        string="Relation Ship With Relative In Taiwan",
+    )
+    relative_in_Taiwan_job = fields.Many2one(
+        "worker.job",
+        string = "Job",
+    )
+    relative_in_Taiwan_address = fields.Selection(
+        [
+            ("twn", "North Taiwan"),
+            ("twc", "Central Taiwan"),
+            ("tws", "South Taiwan")
+        ],
+        string="Relative In Taiwan Address",
+        default="twn"
+    )
+    #---
+    num_of_sib = fields.Integer(string="Number of Siblings")
+    birth_order = fields.Integer(string="Birth Order")
+
+
+
+    #Work experience
+    work_in_noise = fields.Boolean(string="Worked in noise before?")
+    been_to_taiwan = fields.Boolean(string="Been to Taiwan?")
+    work_experience = fields.One2many(
+        "worker.experience",
+        "worker_id",
+        string="Worker Experience Dometic"
+    )
+
+    #Procedure progress
+    has_passport = fields.Boolean(string="Passport")
+    has_judiciary = fields.Boolean(string="Judiciary")
+    has_health_certificate = fields.Boolean(string="Health Certificate")
+
+    #Study at the center
+    tuition_fees = fields.Integer(string="Tuition Fees")
+    enroll_day = fields.Date(string="Enrollment Day")
+    evaluation = fields.Text(string="Note", translate=True)
+
+    #Humam Resource
+    broke = fields.Many2one(
+        "worker.broke",
+        string="Broke"
+    )
+    recruiter = fields.Many2one(
+        "worker.recruiter",
+        string="Recruiter"
+    )
+
+
+    def has_Taiwan_relative(self):
+        if self.relative_in_Taiwan_name:
+            return True
+        return False
+
+
+    @api.depends("dob")
+    def _compute_age(self):
+        today = date.today()
+        for record in self:
+            if record.dob:
+                record.age = relativedelta(today, record.dob).years
+            else:
+                record.age = 0
+
+    def _sub_com_age_relatives(self, bidth_year):
+        if bidth_year <= 0:
+            return 0
+        else:
+            return date.today().year - bidth_year
+
+    @api.depends("father_birth", "mother_birth", "partner_birth")
+    def _compute_age_relatives(self):
+        for rec in self:
+            rec.father_age = rec._sub_com_age_relatives(rec.father_birth)
+            rec.mother_age = rec._sub_com_age_relatives(rec.mother_birth)
+            rec.partner_age = rec._sub_com_age_relatives(rec.partner_birth)
+
+    @api.depends("state")
+    def _compute_code(self):
+        for rec in self:
+            if rec.state:
+                state = rec.state.upper() + "M"
+                rec.code = f"{state}{str(rec.id).zfill(4)}"  # ép id sang chuỗi
+            else:
+                rec.code = ""
+
+
+
+    def image_base64_convert(self, base64_img, doc=None, width_cm=4.0):
+        if not base64_img or not doc:
+            return None
+
+        image_bytes = BytesIO(base64.b64decode(base64_img))
+        return InlineImage(doc, image_bytes, width=Cm(width_cm))
+
+
+
+    def print_checkbox(self, bool_val):
+        if bool_val:
+            return Var.CHECKBOX_TICK
+        return Var.CHECKBOX_UNTICK
+
+
+    def print_color_text(self, text, color):
+        rt = RichText()
+        rt.add(text, color=color)
+        return rt
+
+
+
+    def generate_docx_bytes(self):
+        """Hàm chính: render template, uncheck checkbox, trả về DOCX BytesIO."""
+        self.ensure_one()
+
+        # 1. Load template DOCX
+        module_path = os.path.dirname(__file__)
+        gender_template = "template_male.docx" if self.gender == "mal" else "template_female.docx"
+        template_path = os.path.join(
+            module_path, "..", "static", "src", "template", gender_template
+        )
+        doc = DocxTemplate(template_path)
+
+        # 2. Build context
+        dom_exps = self.work_experience.filtered(lambda e: e.dom_or_abr == 'dom')
+        abr_exps = self.work_experience.filtered(lambda e: e.dom_or_abr == 'abr')
+
+        context = {
+            "ENGLISH_NAME": NoAccentVietnamese.no_accent_vietnamese(self.name).upper() if self.name else "",
+            "CODE": self.code if self.code else "",
+            "TAIWAN_NAME": self.with_context(lang='zh_TW').name if self.with_context(lang='zh_TW') else "",
+            "ADDRESS": (Var.vietnam_zone_dict.get(self.province.zone) + "/" + self.province.with_context(lang='zh_TW').name) if self.province else "",
+            "BIRTH_DATE": self.dob.strftime("%Y/%m/%d") if self.dob else "",
+            "AGE": self.age,
+            "HEIGHT": self.height,
+            "WEIGHT": self.weight,
+            "IMAGE": self.image_base64_convert(self.image, doc, width_cm=3.66),
+            "sin": self.print_color_text(Var.married_dict.get("sin"), Var.red_color) if self.marital_status == 'sin' else self.print_color_text(Var.married_dict.get("sin"), Var.blue_color),
+            "mar": self.print_color_text(Var.married_dict.get("mar"), Var.red_color) if self.marital_status == 'mar' else self.print_color_text(Var.married_dict.get("mar"), Var.blue_color),
+            "div": self.print_color_text(Var.married_dict.get("div"), Var.red_color) if self.marital_status == 'div' else self.print_color_text(Var.married_dict.get("div"), Var.blue_color),
+            "NOR": self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.blue_color) if any(vis for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.red_color),
+            "MYO": self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.red_color) if any(vis.code == "MYO" for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.blue_color),
+            "BLC": self.print_color_text(Var.eye_condition_dict.get("BLC"), Var.red_color) if any(vis.code == "BLC" for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("BLC"), Var.blue_color),
+            "o1": self.print_checkbox(self.gender == 'mal'),
+            "o2": self.print_checkbox(self.gender == 'fem'),
+            "o4": self.print_checkbox(self.is_smoking),
+            "o3": self.print_checkbox(not self.is_smoking),
+            "o6": self.print_checkbox(self.is_alcoholic),
+            "o5": self.print_checkbox(not self.is_alcoholic),
+            "o8": self.print_checkbox(self.is_tattoo),
+            "o7": self.print_checkbox(not self.is_tattoo),
+            "o10": self.print_checkbox(self.has_cosmetic_surgery),
+            "o9": self.print_checkbox(not self.has_cosmetic_surgery),
+            "o12": self.print_checkbox(self.has_limb_disability),
+            "o11": self.print_checkbox(not self.has_limb_disability),
+            "o14": self.print_checkbox(self.is_demobilized_soldier),
+            "o13": self.print_checkbox(not self.is_demobilized_soldier),
+            "o15": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.marital_status == 'sin' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o16": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.marital_status == 'mar' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o17": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.marital_status == 'div' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o18": self.print_color_text(self.print_checkbox(False), Var.blue_color) if any(vis for vis in self.vision) else self.print_color_text(self.print_checkbox(True), Var.red_color),
+            "o19": self.print_color_text(self.print_checkbox(True), Var.red_color) if any(vis.code == "MYO" for vis in self.vision) else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o20": self.print_color_text(self.print_checkbox(True), Var.red_color) if any(vis.code == "BLC" for vis in self.vision) else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o21": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.r_hand == 'rig' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o22": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.r_hand == 'lef' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
+            "o25": self.print_checkbox(self.has_Taiwan_relative()),
+            "o24": self.print_checkbox(not self.has_Taiwan_relative()),
+            "o26": self.print_checkbox(self.eng_pro == 'low'),
+            "o27": self.print_checkbox(self.eng_pro == 'ave'),
+            "o28": self.print_checkbox(self.eng_pro == 'hig'),
+            "o29": self.print_checkbox(self.chi_pro == 'low'),
+            "o30": self.print_checkbox(self.chi_pro == 'ave'),
+            "o31": self.print_checkbox(self.chi_pro == 'hig'),
+            "o33": self.print_checkbox(self.religion),
+            "o32": self.print_checkbox(not self.religion),
+            "RH": self.print_color_text(Var.hand_dict.get("rig"), Var.red_color) if self.r_hand == 'rig' else self.print_color_text(Var.hand_dict.get("rig"), Var.blue_color),
+            "LH": self.print_color_text(Var.hand_dict.get("lef"), Var.red_color) if self.r_hand == 'lef' else self.print_color_text(Var.hand_dict.get("lef"), Var.blue_color),
+
+            "F_A": self.father_age if self.father_age > 0 else '',
+            "FAT_JOB": self.father_job.with_context(lang='zh_TW').name if self.father_job else '',
+            "M_A": self.mother_age if self.mother_age > 0 else '',
+            "MOT_JOB": self.mother_job.with_context(lang='zh_TW').name if self.mother_job else '',
+            "P_A": self.partner_age if self.partner_age > 0 else '',
+            "PAR_JOB": self.partner_job.with_context(lang='zh_TW').name if self.partner_job else '',
+            "RWTWR": self.relationship_with_relative_in_Taiwan.with_context(lang='zh_TW').name if self.relationship_with_relative_in_Taiwan else '',
+            "TWR_JOB": self.relative_in_Taiwan_job.with_context(lang='zh_TW').name if self.relative_in_Taiwan_job else '',
+            "TWR_ADD": Var.taiwan_zone_dict.get(self.relative_in_Taiwan_address) if self.relative_in_Taiwan_address else '',
+            "SIB": self.num_of_sib if self.num_of_sib >= 0 else '',
+            "BIR_ORD": self.birth_order if self.birth_order >= 0 else '',
+            "CHILD_NUM": len(self.children_ids),
+            "CH1": self.children_ids[0].age if len(self.children_ids) > 0 else '',
+            "CH2": self.children_ids[1].age if len(self.children_ids) > 1 else '',
+            "CH3": self.children_ids[2].age if len(self.children_ids) > 2 else '',
+
+            "EDU_BAC": Var.edu_background_map.get(self.edu_background) if self.edu_background else '',
+            "GRA_YEAR": self.gra_year if self.gra_year else '',
+            "MAJOR": self.major.name if self.major else '',
+
+            "RANGE_1": FormatDateForTaiwanFormat.format_date(dom_exps[0].time_range) if len(dom_exps) > 0 else '',
+            "RANGE_2": FormatDateForTaiwanFormat.format_date(dom_exps[1].time_range) if len(dom_exps) > 1 else '',
+            "RANGE_3": FormatDateForTaiwanFormat.format_date(dom_exps[2].time_range) if len(dom_exps) > 2 else '',
+            "RANGE_4": FormatDateForTaiwanFormat.format_date(dom_exps[3].time_range) if len(dom_exps) > 3 else '',
+            "RANGE_5": FormatDateForTaiwanFormat.format_date(abr_exps[0].time_range) if len(abr_exps) > 0 else '',
+            "RANGE_6": FormatDateForTaiwanFormat.format_date(abr_exps[1].time_range) if len(abr_exps) > 1 else '',
+            "RANGE_7": FormatDateForTaiwanFormat.format_date(abr_exps[2].time_range) if len(abr_exps) > 2 else '',
+            "RANGE_8": FormatDateForTaiwanFormat.format_date(abr_exps[3].time_range) if len(abr_exps) > 3 else '',
+            "CONTENT_1": (dom_exps[0].with_context(lang='zh_TW').name or '') if len(dom_exps) > 0 else '',
+            "CONTENT_2": (dom_exps[1].with_context(lang='zh_TW').name or '') if len(dom_exps) > 1 else '',
+            "CONTENT_3": (dom_exps[2].with_context(lang='zh_TW').name or '') if len(dom_exps) > 2 else '',
+            "CONTENT_4": (dom_exps[3].with_context(lang='zh_TW').name or '') if len(dom_exps) > 3 else '',
+            "CONTENT_5": (abr_exps[0].with_context(lang='zh_TW').name or '') if len(abr_exps) > 0 else '',
+            "CONTENT_6": (abr_exps[1].with_context(lang='zh_TW').name or '') if len(abr_exps) > 1 else '',
+            "CONTENT_7": (abr_exps[2].with_context(lang='zh_TW').name or '') if len(abr_exps) > 2 else '',
+            "CONTENT_8": (abr_exps[3].with_context(lang='zh_TW').name or '') if len(abr_exps) > 3 else '',
+            "REASON_1": (dom_exps[0].with_context(lang='zh_TW').reason_for_leaving or '') if len(dom_exps) > 0 else '',
+            "REASON_2": (dom_exps[1].with_context(lang='zh_TW').reason_for_leaving or '') if len(dom_exps) > 1 else '',
+            "REASON_3": (dom_exps[2].with_context(lang='zh_TW').reason_for_leaving or '') if len(dom_exps) > 2 else '',
+            "REASON_4": (dom_exps[3].with_context(lang='zh_TW').reason_for_leaving or '') if len(dom_exps) > 3 else '',
+            "REASON_5": (abr_exps[0].with_context(lang='zh_TW').reason_for_leaving or '') if len(abr_exps) > 0 else '',
+            "REASON_6": (abr_exps[1].with_context(lang='zh_TW').reason_for_leaving or '') if len(abr_exps) > 1 else '',
+            "REASON_7": (abr_exps[2].with_context(lang='zh_TW').reason_for_leaving or '') if len(abr_exps) > 2 else '',
+            "REASON_8": (abr_exps[3].with_context(lang='zh_TW').reason_for_leaving or '') if len(abr_exps) > 3 else '',
+
+            "EVALUATION": self.evaluation if self.evaluation else '',
+            "RECRUITER": self.recruiter.name if self.recruiter else '',
+            "BROKE": self.broke.name if self.broke else '',
+        }
+
+        # 3. Render template
+        doc.render(context)
+
+        # 6. Mở lại bằng DocxTemplate để trả BytesIO
+        # doc = DocxTemplate(output_path)
+        doc_bytes = BytesIO()
+        doc.save(doc_bytes)
+        doc_bytes.seek(0)
+        return doc_bytes
+
+
+    def action_download_docx(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/worker/{self.id}/download_docx',
+            'target': 'new',
+        }
+
+
+

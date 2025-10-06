@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="worker_form_view" model="ir.ui.view">
+            <field name="name">worker.worker.form</field>
+            <field name="model">worker.worker</field>
+            <field name="arch" type="xml">
+                <form string="Profile">
+                    <sheet>
+                        <button name="action_download_docx" type="object" string="Tải Word" class="btn-primary"/>
+
+                        <group col="3"  >
+                            <group colspan="2" col="2">
+                                <group colspan="2">
+                                    <group>
+                                        <div class="oe_title">
+                                            <label for="name"/>
+                                            <h1>
+                                                <field name="name" placeholder="Type name of worker"/>
+                                            </h1>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <div class="oe_title">
+                                            <label for="code"/>
+                                            <h1>
+                                                <field name="code"/>
+                                            </h1>
+                                        </div>
+                                    </group>
+                                </group>
+                                <group colspan="2">
+                                    <group>
+                                        <field name="state"/>
+                                        <field name="recruiter"/>
+                                    </group>
+                                    <group>
+                                        <field name="source"/>
+                                        <field name="broke"/>
+                                    </group>
+                                </group>
+
+                                <separator string="Basic Information" colspan="2"/>
+                                <group colspan="2">
+                                    <group>
+                                        <field name="dob"/>
+                                        <field name="pob"/>
+                                        <field name="idn"/>
+                                        <field name="place_of_issue"/>
+                                    </group>
+                                    <group>
+                                        <field name="age"/>
+                                        <field name="gender"/>
+                                        <field name="date_of_issue"/>
+                                        <field name="religion"/>
+                                    </group>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+                            </group>
+                        </group>
+
+                        <separator string="Contact Information" colspan="2"/>
+                        <group col="3">
+                            <group>
+                                <field name="province"/>
+                                <field name="phone_worker" groups="worker.group_worker_manager"/>
+                            </group>
+                            <group>
+                                <field name="district"/>
+                            </group>
+                            <group>
+                                <field name="address"/>
+                            </group>
+                        </group>
+
+                        <separator string="Health Information" colspan="2"/>
+                        <group col="3">
+                            <group>
+                                <field name="height" placeholder="cm"/>
+                                <field name="weight" placeholder="kg"/>
+                                <field name="r_hand"/>
+                            </group>
+                            <group>
+                                <field name="vision" widget="many2many_checkboxes"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="is_alcoholic"/>
+                                    <field name="is_smoking"/>
+                                    <field name="has_limb_disability"/>
+                                </group>
+                                <group>
+                                    <field name="is_tattoo"/>
+                                    <field name="has_cosmetic_surgery"/>
+                                </group>
+                            </group>
+                        </group>
+
+                        <separator string="Personal Information"/>
+                        <group col="3">
+                            <group>
+                                <field name="is_demobilized_soldier"/>
+                            </group>
+                            <group>
+                                <field name="marital_status"/>
+                            </group>
+                            <group>
+                                <field name="year_mar_status"/>
+                            </group>
+                        </group>
+
+                        <separator string="Educational information"/>
+                        <group col="3">
+                            <group>
+                                <field name="edu_background"/>
+                                <field name="eng_pro"/>
+                            </group>
+                            <group>
+                                <field name="major"/>
+                                <field name="chi_pro"/>
+                            </group>
+                            <group>
+                                <field name="gra_year"/>
+                            </group>
+                        </group>
+
+                        <separator string="Worker Relative"/>
+                        <group col="3">
+                            <group colspan="3" col="3">
+                                <group>
+                                    <field name="father_name"/>
+                                </group>
+                                <group>
+                                    <field name="father_birth"/>
+                                </group>
+                                <group>
+                                    <field name="father_job"/>
+                                </group>
+                            </group>
+                            <group colspan="3" col="3">
+                                <group>
+                                    <field name="mother_name"/>
+                                </group>
+                                <group>
+                                    <field name="mother_birth"/>
+                                </group>
+                                <group>
+                                    <field name="mother_job"/>
+                                </group>
+                            </group>
+                            <group colspan="3" col="3">
+                                <group>
+                                    <field name="partner_name"/>
+                                </group>
+                                <group>
+                                    <field name="partner_birth"/>
+                                </group>
+                                <group>
+                                    <field name="partner_job"/>
+                                </group>
+                            </group>
+                            <group colspan="3" col="3">
+                                <group>
+                                    <field name="num_of_sib"/>
+                                    <field name="birth_order"/>
+                                </group>
+                                <group>
+                                    <field name="relative_in_Taiwan_name"/>
+                                    <field name="relationship_with_relative_in_Taiwan"/>
+                                    <field name="relative_in_Taiwan_job"/>
+                                </group>
+                                <group>
+                                    <b>Children Age Info</b>
+                                    <field name="children_ids" nolabel="1">
+                                        <list editable="bottom">
+                                            <field name="birth_year"/>
+                                            <field name="age"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </group>
+                        </group>
+
+                        <separator string="Worker Experience"/>
+                        <group col="3">
+                            <group>
+                                <field name="work_in_noise"/>
+                            </group>
+                            <group>
+                                <field name="been_to_taiwan"/>
+                            </group>
+                            <group></group>
+                        </group>
+                        <field name="work_experience">
+                            <list editable="bottom">
+                                <field name="dom_or_abr"/>
+                                <field name="time_range"/>
+                                <field name="name"/>
+                                <field name="reason_for_leaving"/>
+                            </list>
+                        </field>
+
+                        <separator string="Procedure progress"/>
+                        <group col="3">
+                            <group>
+                                <field name="has_passport"/>
+                            </group>
+                            <group>
+                                <field name="has_judiciary"/>
+                            </group>
+                            <group>
+                                <field name="has_health_certificate"/>
+                            </group>
+                        </group>
+
+                        <separator string="Study at the academy"/>
+                        <group col="3">
+                            <group>
+                                <field name="tuition_fees"/>
+                            </group>
+                            <group>
+                                <field name="enroll_day"/>
+                            </group>
+                            <group>
+                                <field name="evaluation"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="worker_list_view" model="ir.ui.view">
+            <field name="name">worker.worker.list</field>
+            <field name="model">worker.worker</field>
+            <field name="arch" type="xml">
+                <list string="List View Worker">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="province"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="worker_act_window" model="ir.actions.act_window">
+            <field name="name">Worker Manager</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">worker.worker</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No Information To View
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_worker_root" name="Workers"/>
+        <menuitem id="menu_worker" name="Worker Management" sequence="1"
+                  parent="menu_worker_root" action="worker_act_window"/>
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="major_form_view" model="ir.ui.view">
+            <field name="name">worker.major.form</field>
+            <field name="model">worker.major</field>
+            <field name="arch" type="xml">
+                <form string="Major">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Type major"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="major_list_view" model="ir.ui.view">
+            <field name="name">worker.major.list</field>
+            <field name="model">worker.major</field>
+            <field name="arch" type="xml">
+                <list string="Major List">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="major_act_window" model="ir.actions.act_window">
+            <field name="name">Major</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">worker.major</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No data to list
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_major" name="Major"
+                  parent="menu_worker_root" action="major_act_window" groups="worker.group_worker_manager"/>
+    </data>
+</odoo>

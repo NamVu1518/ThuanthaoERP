@@ -1,0 +1,172 @@
+<odoo>
+    <record id="province_hanoi" model="worker.province">
+        <field name="name">TP.Hà Nội</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_haiphong" model="worker.province">
+        <field name="name">TP.Hải Phòng</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_danang" model="worker.province">
+        <field name="name">TP.Đà Nẵng</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_hue" model="worker.province">
+        <field name="name">TP.Huế</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_hochiminh" model="worker.province">
+        <field name="name">TP.Hồ Chí Minh</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_cantho" model="worker.province">
+        <field name="name">TP.Cần Thơ</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_laichau" model="worker.province">
+        <field name="name">Tỉnh Lai Châu</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_dienbien" model="worker.province">
+        <field name="name">Tỉnh Điện Biên</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_sonla" model="worker.province">
+        <field name="name">Tỉnh Sơn La</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_langson" model="worker.province">
+        <field name="name">Tỉnh Lạng Sơn</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_caobang" model="worker.province">
+        <field name="name">Tỉnh Cao Bằng</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_tuyenquang" model="worker.province">
+        <field name="name">Tỉnh Tuyên Quang</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_laocai" model="worker.province">
+        <field name="name">Tỉnh Lào Cai</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_thainguyen" model="worker.province">
+        <field name="name">Tỉnh Thái Nguyên</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_phutho" model="worker.province">
+        <field name="name">Tỉnh Phú Thọ</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_bacninh" model="worker.province">
+        <field name="name">Tỉnh Bắc Ninh</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_hungyen" model="worker.province">
+        <field name="name">Tỉnh Hưng Yên</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_ninhbinh" model="worker.province">
+        <field name="name">Tỉnh Ninh Bình</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_quangninh" model="worker.province">
+        <field name="name">Tỉnh Quảng Ninh</field>
+        <field name="zone">nor</field>
+    </record>
+
+    <record id="province_thanhhoa" model="worker.province">
+        <field name="name">Tỉnh Thanh Hóa</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_nghean" model="worker.province">
+        <field name="name">Tỉnh Nghệ An</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_hatinh" model="worker.province">
+        <field name="name">Tỉnh Hà Tĩnh</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_quangtri" model="worker.province">
+        <field name="name">Tỉnh Quảng Trị</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_quangngai" model="worker.province">
+        <field name="name">Tỉnh Quảng Ngãi</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_gialai" model="worker.province">
+        <field name="name">Tỉnh Gia Lai</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_khanhhoa" model="worker.province">
+        <field name="name">Tỉnh Khánh Hòa</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_daklak" model="worker.province">
+        <field name="name">Tỉnh Đắk Lắk</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_lamdong" model="worker.province">
+        <field name="name">Tỉnh Lâm Đồng</field>
+        <field name="zone">cen</field>
+    </record>
+
+    <record id="province_dongnai" model="worker.province">
+        <field name="name">Tỉnh Đồng Nai</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_tayninh" model="worker.province">
+        <field name="name">Tỉnh Tây Ninh</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_vinhlong" model="worker.province">
+        <field name="name">Tỉnh Vĩnh Long</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_dongthap" model="worker.province">
+        <field name="name">Tỉnh Đồng Tháp</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_camau" model="worker.province">
+        <field name="name">Tỉnh Cà Mau</field>
+        <field name="zone">sou</field>
+    </record>
+
+    <record id="province_angiang" model="worker.province">
+        <field name="name">Tỉnh An Giang</field>
+        <field name="zone">sou</field>
+    </record>
+
+</odoo>

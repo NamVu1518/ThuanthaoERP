@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="province_form_view" model="ir.ui.view">
+            <field name="name">worker.province.form</field>
+            <field name="model">worker.province</field>
+            <field name="arch" type="xml">
+                <form string="Province">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Type province"/>
+                            </h1>
+                        </div>
+
+                        <group col="3">
+                            <field name="zone" placeholder="Type zone"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="province_list_view" model="ir.ui.view">
+            <field name="name">worker.province.list</field>
+            <field name="model">worker.province</field>
+            <field name="arch" type="xml">
+                <list string="Province List">
+                    <field name="name"/>
+                    <field name="zone"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="province_act_window" model="ir.actions.act_window">
+            <field name="name">Province</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">worker.province</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No data to list
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_province" name="Province"
+                  parent="menu_worker_root" action="province_act_window" groups="worker.group_worker_manager"/>
+    </data>
+</odoo>
