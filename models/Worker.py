@@ -298,12 +298,12 @@ class Worker(models.Model):
 
 
 
-    def image_base64_convert(self, base64_img, doc=None, width_cm=4.0):
+    def image_base64_convert(self, base64_img, doc=None, height_cm=4.0):
         if not base64_img or not doc:
             return None
 
         image_bytes = BytesIO(base64.b64decode(base64_img))
-        return InlineImage(doc, image_bytes, width=Cm(width_cm))
+        return InlineImage(doc, image_bytes, height=Cm(height_cm))
 
 
 
@@ -345,7 +345,7 @@ class Worker(models.Model):
             "AGE": self.age,
             "HEIGHT": self.height,
             "WEIGHT": self.weight,
-            "IMAGE": self.image_base64_convert(self.image, doc, width_cm=3.66),
+            "IMAGE": self.image_base64_convert(self.image, doc, height_cm=4.8),
             "sin": self.print_color_text(Var.married_dict.get("sin"), Var.red_color) if self.marital_status == 'sin' else self.print_color_text(Var.married_dict.get("sin"), Var.blue_color),
             "mar": self.print_color_text(Var.married_dict.get("mar"), Var.red_color) if self.marital_status == 'mar' else self.print_color_text(Var.married_dict.get("mar"), Var.blue_color),
             "div": self.print_color_text(Var.married_dict.get("div"), Var.red_color) if self.marital_status == 'div' else self.print_color_text(Var.married_dict.get("div"), Var.blue_color),
