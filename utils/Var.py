@@ -1,6 +1,7 @@
 PRESENT = '現在'
 CHECKBOX_UNTICK = "☐"
 CHECKBOX_TICK = "☑"
+YES = "有"
 edu_background_map = {
     'pri': '國小',
     'mid': '國中',

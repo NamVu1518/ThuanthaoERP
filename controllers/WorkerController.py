@@ -11,13 +11,13 @@ class WorkerController(http.Controller):
 
         # tạo file bytes
         file_stream = worker.generate_docx_bytes()
-        name_file = NoAccentVietnamese.no_accent_vietnamese(worker.name.replace(' ', '')) + "_" + worker.code
+        name_file = worker.code + " " + (NoAccentVietnamese.no_accent_vietnamese(worker.with_context(lang='zh_TW').name) or "") + " " + NoAccentVietnamese.no_accent_vietnamese(worker.name.upper())
         filename = f"{name_file}.docx"
 
         return request.make_response(
             file_stream.getvalue(),
             headers=[
-                ('Content-Typeeee', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+                ('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
                 ('Content-Disposition', f'attachment; filename="{filename}"'),
             ]
         )
