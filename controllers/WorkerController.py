@@ -1,6 +1,7 @@
 from odoo import http
 from odoo.http import request
 from odoo.addons.worker.utils import NoAccentVietnamese
+import urllib.parse
 
 class WorkerController(http.Controller):
     @http.route('/worker/<int:worker_id>/download_docx', type='http', auth='user')
@@ -12,6 +13,7 @@ class WorkerController(http.Controller):
         # tạo file bytes
         file_stream = worker.generate_docx_bytes()
         name_file = worker.code + " " + (NoAccentVietnamese.no_accent_vietnamese(worker.with_context(lang='zh_TW').name) or "") + " " + NoAccentVietnamese.no_accent_vietnamese(worker.name.upper())
+        name_file = urllib.parse.quote(name_file)
         filename = f"{name_file}.docx"
 
         return request.make_response(
