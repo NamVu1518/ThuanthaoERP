@@ -214,15 +214,15 @@ class Worker(models.Model):
         "worker.job",
         string = "Job",
     )
-    relative_in_Taiwan_address = fields.Selection(
-        [
-            ("twn", "North Taiwan"),
-            ("twc", "Central Taiwan"),
-            ("tws", "South Taiwan")
-        ],
-        string="Relative In Taiwan Address",
-        default="twn"
-    )
+    # relative_in_Taiwan_address = fields.Selection(
+    #     [
+    #         ("twn", "North Taiwan"),
+    #         ("twc", "Central Taiwan"),
+    #         ("tws", "South Taiwan")
+    #     ],
+    #     string="Relative In Taiwan Address",
+    #     default="twn"
+    # )
     #---
     num_of_sib = fields.Integer(string="Number of Siblings")
     birth_order = fields.Integer(string="Birth Order")
@@ -260,7 +260,7 @@ class Worker(models.Model):
 
 
     def has_Taiwan_relative(self):
-        if self.relative_in_Taiwan_name:
+        if self.relative_in_Taiwan_name or self.relative_in_Taiwan_job or self.relationship_with_relative_in_Taiwan:
             return True
         return False
 
@@ -350,7 +350,7 @@ class Worker(models.Model):
             "mar": self.print_color_text(Var.married_dict.get("mar"), Var.red_color) if self.marital_status == 'mar' else self.print_color_text(Var.married_dict.get("mar"), Var.blue_color),
             "div": self.print_color_text(Var.married_dict.get("div"), Var.red_color) if self.marital_status == 'div' else self.print_color_text(Var.married_dict.get("div"), Var.blue_color),
             "NOR": self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.blue_color) if any(vis for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.red_color),
-            "MYO": self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.red_color) if any(vis.code == "MYO" for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("NOR"), Var.blue_color),
+            "MYO": self.print_color_text(Var.eye_condition_dict.get("MYO"), Var.red_color) if any(vis.code == "MYO" for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("MYO"), Var.blue_color),
             "BLC": self.print_color_text(Var.eye_condition_dict.get("BLC"), Var.red_color) if any(vis.code == "BLC" for vis in self.vision) else self.print_color_text(Var.eye_condition_dict.get("BLC"), Var.blue_color),
             "o1": self.print_checkbox(self.gender == 'mal'),
             "o2": self.print_checkbox(self.gender == 'fem'),
@@ -374,7 +374,7 @@ class Worker(models.Model):
             "o20": self.print_color_text(self.print_checkbox(True), Var.red_color) if any(vis.code == "BLC" for vis in self.vision) else self.print_color_text(self.print_checkbox(False), Var.blue_color),
             "o21": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.r_hand == 'rig' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
             "o22": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.r_hand == 'lef' else self.print_color_text(self.print_checkbox(False), Var.blue_color),
-            "o25": self.print_checkbox(self.has_Taiwan_relative()),
+            "o25": self.print_color_text(self.print_checkbox(True), Var.red_color) if self.has_Taiwan_relative() else self.print_color_text(self.print_checkbox(False), Var.blue_color),
             "o24": self.print_checkbox(not self.has_Taiwan_relative()),
             "o26": self.print_checkbox(self.eng_pro == 'low'),
             "o27": self.print_checkbox(self.eng_pro == 'ave'),
@@ -393,7 +393,7 @@ class Worker(models.Model):
             "oy10": self.print_color_text(Var.YES, Var.red_color) if self.has_cosmetic_surgery else self.print_color_text(Var.YES, Var.blue_color),
             "oy12": self.print_color_text(Var.YES, Var.red_color) if self.has_limb_disability else self.print_color_text(Var.YES, Var.blue_color),
             "oy14": self.print_color_text(Var.YES, Var.red_color) if self.is_demobilized_soldier else self.print_color_text(Var.YES, Var.blue_color),
-
+            "oy25": self.print_color_text(Var.YES, Var.red_color) if self.has_Taiwan_relative() else self.print_color_text(Var.YES, Var.blue_color),
 
 
             "F_A": self.father_age if self.father_age > 0 else '',
@@ -404,7 +404,6 @@ class Worker(models.Model):
             "PAR_JOB": (self.partner_job.with_context(lang='zh_TW').name or "") if self.partner_job else '',
             "RWTWR": (self.relationship_with_relative_in_Taiwan.with_context(lang='zh_TW').name or "") if self.relationship_with_relative_in_Taiwan else '',
             "TWR_JOB": (self.relative_in_Taiwan_job.with_context(lang='zh_TW').name or "") if self.relative_in_Taiwan_job else '',
-            "TWR_ADD": Var.taiwan_zone_dict.get(self.relative_in_Taiwan_address) if self.relative_in_Taiwan_address else '',
             "SIB": self.num_of_sib if self.num_of_sib >= 0 else '',
             "BIR_ORD": self.birth_order if self.birth_order >= 0 else '',
             "CHILD_NUM": len(self.children_ids),

@@ -34,5 +34,5 @@ hand_dict = {
     "rig": "右手",
     "lef": "左手",
 }
-red_color = "EE0000"
+red_color = "FF2400"
 blue_color = "000099"
