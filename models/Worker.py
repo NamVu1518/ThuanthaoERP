@@ -419,7 +419,7 @@ class Worker(models.Model):
             "RANGE_2": FormatDateForTaiwanFormat.format_date(dom_exps[1].time_range) if len(dom_exps) > 1 else '',
             "RANGE_3": FormatDateForTaiwanFormat.format_date(dom_exps[2].time_range) if len(dom_exps) > 2 else '',
             "RANGE_4": FormatDateForTaiwanFormat.format_date(dom_exps[3].time_range) if len(dom_exps) > 3 else '',
-            "RANGE_5": FormatDateForTaiwanFormat.format_date(abr_exps[0].time_range) if len(abr_exps) > 0 else '',
+            "RANGE_5": FormatDateForTaiwanFormat.format_date(abr_exps[0].time_range) if len(abr_exps) > 0 else Var.NO,
             "RANGE_6": FormatDateForTaiwanFormat.format_date(abr_exps[1].time_range) if len(abr_exps) > 1 else '',
             "RANGE_7": FormatDateForTaiwanFormat.format_date(abr_exps[2].time_range) if len(abr_exps) > 2 else '',
             "RANGE_8": FormatDateForTaiwanFormat.format_date(abr_exps[3].time_range) if len(abr_exps) > 3 else '',
