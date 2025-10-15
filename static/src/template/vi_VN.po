@@ -4316,7 +4316,7 @@ msgstr "Trung cấp nghề"
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__weight
 msgid "Weight"
-msgstr "Cao"
+msgstr "Cân nặng"
 
 #. module: worker
 #: model:ir.model,name:worker.model_worker_experience

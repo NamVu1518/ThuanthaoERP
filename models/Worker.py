@@ -270,7 +270,7 @@ class Worker(models.Model):
         today = date.today()
         for record in self:
             if record.dob:
-                record.age = relativedelta(today, record.dob).years
+                record.age = today.year - record.dob.year
             else:
                 record.age = 0
 
