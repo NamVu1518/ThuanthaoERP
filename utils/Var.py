@@ -37,3 +37,10 @@ hand_dict = {
 }
 red_color = "EE0000"
 blue_color = "000099"
+state_code_dict = {
+    "ab": "A",
+    "nn": "N",
+    "tw": "T",
+    "cd": "C",
+}
+year_start = 2000

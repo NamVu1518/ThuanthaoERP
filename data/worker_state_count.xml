@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vision Conditions -->
+    <data noupdate="1">
+        <record id="ab_state_count" model="worker.worker_state_count">
+            <field name="state">ab</field>
+            <field name="year">0</field>
+            <field name="count">0</field>
+            <field name="head_code">A</field>
+        </record>
+
+        <record id="nn_state_count" model="worker.worker_state_count">
+            <field name="state">nn</field>
+            <field name="year">0</field>
+            <field name="count">0</field>
+            <field name="head_code">N</field>
+        </record>
+
+        <record id="tw_state_count" model="worker.worker_state_count">
+            <field name="state">tw</field>
+            <field name="year">0</field>
+            <field name="count">0</field>
+            <field name="head_code">T</field>
+        </record>
+
+        <record id="cd_state_count" model="worker.worker_state_count">
+            <field name="state">cd</field>
+            <field name="year">0</field>
+            <field name="count">0</field>
+            <field name="head_code">C</field>
+        </record>
+    </data>
+</odoo>

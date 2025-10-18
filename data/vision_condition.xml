@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vision Conditions -->
-    <record id="vision_condition_myopia" model="worker.vision.condition">
-        <field name="name">Cận thị</field>
-        <field name="code">MYO</field>
-    </record>
+    <data noupdate="1">
+        <record id="vision_condition_myopia" model="worker.vision.condition">
+            <field name="name">Cận thị</field>
+            <field name="code">MYO</field>
+        </record>
 
-    <record id="vision_condition_blind_color" model="worker.vision.condition">
-        <field name="name">Mù màu</field>
-        <field name="code">BLC</field>
-    </record>
+        <record id="vision_condition_blind_color" model="worker.vision.condition">
+            <field name="name">Mù màu</field>
+            <field name="code">BLC</field>
+        </record>
+    </data>
 </odoo>

@@ -10,3 +10,4 @@ from . import Children
 from . import Recruiter
 from . import Broke
 from . import Major
+from . import WorkerStateCount

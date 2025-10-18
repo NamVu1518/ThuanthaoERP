@@ -1,6 +1,8 @@
 import re
 
 def format_date(s):
+    if not s:
+        return ''
     s = s.replace(' ', '')
     arr = s.split('-')
     if len(arr) <= 0 or len(arr) > 2:

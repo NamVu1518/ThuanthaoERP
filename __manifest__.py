@@ -32,9 +32,11 @@ Main Features:
         'views/Broke.xml',
         'views/Recruiter.xml',
         'views/Major.xml',
+        'views/WorkerStateCount.xml',
         'data/province.xml',
         'data/district.xml',
-        'data/vision_condition.xml'
+        'data/vision_condition.xml',
+        'data/worker_state_count.xml',
     ],
     'assets': {
         'web.assets_backend': [

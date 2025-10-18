@@ -26,10 +26,10 @@ class Worker(models.Model):
     )
     state = fields.Selection(
         [
-            ("ab", "ABM: New"),
-            ("nn", "NNM: Abroad come back"),
-            ("tw", "TWM: Taiwan come back"),
-            ("cd", "CDM: Designation")
+            ("ab", "A: New"),
+            ("nn", "N: Abroad come back"),
+            ("tw", "T: Taiwan come back"),
+            ("cd", "C: Designation")
         ],
         string="State",
         default='ab'
@@ -287,15 +287,40 @@ class Worker(models.Model):
             rec.mother_age = rec._sub_com_age_relatives(rec.mother_birth)
             rec.partner_age = rec._sub_com_age_relatives(rec.partner_birth)
 
-    @api.depends("state")
-    def _compute_code(self):
-        for rec in self:
-            if rec.state:
-                state = rec.state.upper() + "M"
-                rec.code = f"{state}{str(rec.id).zfill(4)}"  # ép id sang chuỗi
-            else:
-                rec.code = ""
+    @api.model
+    def create(self, vals):
+        record = super().create(vals)
+        if record.state:
+            state_count = record.env["worker.worker_state_count"].search(
+                [("state", "=", record.state)], limit=1
+            )
+            record.code = state_count.create_new_code()
+        return record
 
+    def write(self, vals):
+        old_states = {rec.id: rec.state for rec in self}
+        res = super().write(vals)
+
+        if 'state' in vals:
+            for rec in self:
+                old_state = old_states[rec.id]
+                new_state = rec.state
+
+                if old_state:
+                    old_state_count = rec.env['worker.worker_state_count'].search(
+                        [('state', '=', old_state)], limit=1
+                    )
+                    old_state_count.delete_one()
+
+                if new_state:
+                    new_state_count = rec.env['worker.worker_state_count'].search(
+                        [('state', '=', new_state)], limit=1
+                    )
+                    rec.code = new_state_count.create_new_code()
+                else:
+                    rec.code = ""
+
+        return res
 
 
     def image_base64_convert(self, base64_img, doc=None, height_cm=4.0):

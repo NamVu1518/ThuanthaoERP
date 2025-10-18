@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="worker_state_count_form_view" model="ir.ui.view">
+            <field name="name">worker.worker_state_count.form</field>
+            <field name="model">worker.worker_state_count</field>
+            <field name="arch" type="xml">
+                <form string="worker_state_count">
+                    <sheet>
+                        <group col="3">
+                            <group colspan="1">
+                                <field name="state" placeholder="state"/>
+                                <field name="year" placeholder="year"/>
+                            </group>
+                            <group colspan="1">
+                                <field name="count" placeholder="count"/>
+                            </group>
+                            <group colspan="1">
+                                <field name="head_code" placeholder="head_code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="worker_state_count_list_view" model="ir.ui.view">
+            <field name="name">worker.worker_state_count.list</field>
+            <field name="model">worker.worker_state_count</field>
+            <field name="arch" type="xml">
+                <list string="worker_state_count List">
+                    <field name="state"/>
+                    <field name="year"/>
+                    <field name="count"/>
+                    <field name="head_code"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="worker_state_count_act_window" model="ir.actions.act_window">
+            <field name="name">worker_state_count</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">worker.worker_state_count</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No data to list
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_worker_state_count" name="worker_state_count"
+                  parent="menu_worker_root" action="worker_state_count_act_window"/>
+    </data>
+</odoo>
