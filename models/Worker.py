@@ -1,6 +1,5 @@
 from odoo import api, fields, models
 from datetime import date
-from dateutil.relativedelta import relativedelta
 from docxtpl import DocxTemplate, InlineImage, RichText
 from docx.shared import Cm
 import base64
@@ -258,6 +257,25 @@ class Worker(models.Model):
         string="Recruiter"
     )
 
+    is_created_this_year = fields.Boolean(
+        string="Created This Year",
+        compute="_compute_is_created_this_year",
+        search="_search_created_this_year"
+    )
+
+    is_created_this_month = fields.Boolean(
+        string="Created This Month",
+        compute="_compute_is_created_this_month",
+        search="_search_created_this_month"
+    )
+
+    is_created_last_month = fields.Boolean(
+        string="Created Last Month",
+        compute="_compute_is_created_last_month",
+        search="_search_created_last_month"
+    )
+
+
 
     def has_Taiwan_relative(self):
         if self.relative_in_Taiwan_name or self.relative_in_Taiwan_job or self.relationship_with_relative_in_Taiwan:
@@ -296,6 +314,46 @@ class Worker(models.Model):
             )
             record.code = state_count.create_new_code()
         return record
+
+    @api.depends('create_date')
+    def _compute_is_created_this_year(self):
+        for rec in self:
+            rec.is_created_this_year = rec.create_date and rec.create_date.year == date.today().year
+
+    @api.model
+    def _search_created_this_year(self, operator, value):
+        if not value:
+            return []
+        today = date.today()
+        start_of_year = f"{today.year}-01-01 00:00:00"
+        return [('create_date', '>=', start_of_year)]
+
+    @api.depends('create_date')
+    def _compute_is_created_this_month(self):
+        for rec in self:
+            rec.is_created_this_month = rec.create_date and rec.create_date.month == date.today().month
+
+    @api.model
+    def _search_created_this_month(self, operator, value):
+        if not value:
+            return []
+        today = date.today()
+        start_of_this_month = f"{today.year}-{today.month}-01 00:00:00"
+        return [('create_date', '>=', start_of_this_month)]
+
+    @api.depends('create_date')
+    def _compute_is_created_this_month(self):
+        for rec in self:
+            rec.is_created_last_month = rec.create_date and rec.create_date.month == date.today().month - 1
+
+    @api.model
+    def _search_created_last_month(self, operator, value):
+        if not value:
+            return []
+        today = date.today()
+        start_of_last_month = f"{today.year}-{today.month - 1}-01 00:00:00"
+        end_of_last_month = f"{today.year}-{today.month}-01 00:00:00"
+        return [('create_date', '>=', start_of_last_month), ('create_date', '<', end_of_last_month)]
 
     def write(self, vals):
         old_states = {rec.id: rec.state for rec in self}

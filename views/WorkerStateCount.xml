@@ -50,7 +50,10 @@
             </field>
         </record>
 
-        <menuitem id="menu_worker_state_count" name="worker_state_count"
-                  parent="menu_worker_root" action="worker_state_count_act_window"/>
+        <menuitem id="menu_worker_state_count"
+                  name="worker_state_count"
+                  parent="menu_worker_root"
+                  action="worker_state_count_act_window"
+                  groups="base.group_system"/>
     </data>
 </odoo>

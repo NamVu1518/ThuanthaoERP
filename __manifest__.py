@@ -46,6 +46,9 @@ Main Features:
             'worker/static/src/css/worker_report.css',
         ]
     },
+    'external_dependencies': {
+        'python': ['docxtpl'],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
