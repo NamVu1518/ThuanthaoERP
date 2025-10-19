@@ -256,9 +256,9 @@
                     <filter name="filter_t_type" string="Filter T Type" domain="[('state','=','tw')]"/>
                     <filter name="filter_n_type" string="Filter N Type" domain="[('state','=','nn')]"/>
                     <filter name="filter_c_type" string="Filter C Type" domain="[('state','=','cd')]"/>
-                    <filter name="filter_created_this_year" string="Created This Year" domain="[('is_created_this_year', '=', True)]"/>
                     <filter name="filter_this_month" string="This Month" domain="[('is_created_this_month', '=', True)]" context="{'search_default_filter_this_month': 1}"/>
                     <filter name="filter_last_month" string="Last Month" domain="[('is_created_last_month', '=', True)]" context="{'search_default_filter_last_month': 1}"/>
+                    <filter name="filter_created_this_year" string="Created This Year" domain="[('is_created_this_year', '=', True)]"/>
                 </search>
             </field>
         </record>
