@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250915\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-06 08:37+0000\n"
-"PO-Revision-Date: 2025-10-06 08:37+0000\n"
+"POT-Creation-Date: 2025-10-21 16:37+0000\n"
+"PO-Revision-Date: 2025-10-21 16:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,8 +22,9 @@ msgstr "<b>Tuổi các con</b>"
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__state__ab
-msgid "ABM: New"
-msgstr "ABM: Đi mới"
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker_state_count__state__ab
+msgid "A: New"
+msgstr "A: Đi mới"
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_experience__dom_or_abr__abr
@@ -82,8 +83,9 @@ msgstr ""
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__state__cd
-msgid "CDM: Designation"
-msgstr "CDM: Đơn chỉ định"
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker_state_count__state__cd
+msgid "C: Designation"
+msgstr "C: Đơn chỉ định"
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_province__zone__cen
@@ -91,9 +93,9 @@ msgid "Central"
 msgstr "Trung Tâm"
 
 #. module: worker
-#: model:ir.model.fields.selection,name:worker.selection__worker_worker__relative_in_Taiwan_address__twc
-msgid "Central Taiwan"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+msgid "Check Translate"
+msgstr "Kiểm tra dịch"
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__children_ids
@@ -128,6 +130,27 @@ msgid "Cosmetic surgery"
 msgstr "Phẫu thuật dao kéo"
 
 #. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__count
+msgid "Count"
+msgstr ""
+
+#. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker__is_created_last_month
+msgid "Created Last Month"
+msgstr ""
+
+#. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker__is_created_this_month
+msgid "Created This Month"
+msgstr ""
+
+#. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker__is_created_this_year
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Created This Year"
+msgstr "Năm nay"
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_broke__create_uid
 #: model:ir.model.fields,field_description:worker.field_worker_children__create_uid
 #: model:ir.model.fields,field_description:worker.field_worker_district__create_uid
@@ -141,6 +164,7 @@ msgstr "Phẫu thuật dao kéo"
 #: model:ir.model.fields,field_description:worker.field_worker_source__create_uid
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__create_uid
 #: model:ir.model.fields,field_description:worker.field_worker_worker__create_uid
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__create_uid
 msgid "Created by"
 msgstr "Tạo bởi"
 
@@ -158,6 +182,7 @@ msgstr "Tạo bởi"
 #: model:ir.model.fields,field_description:worker.field_worker_source__create_date
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__create_date
 #: model:ir.model.fields,field_description:worker.field_worker_worker__create_date
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__create_date
 msgid "Created on"
 msgstr "Tạo trên"
 
@@ -183,6 +208,7 @@ msgstr "Ngày cấp"
 #: model:ir.model,name:worker.model_worker_recruiter
 #: model:ir.model,name:worker.model_worker_relationship
 #: model:ir.model,name:worker.model_worker_religion
+#: model:ir.model,name:worker.model_worker_worker_state_count
 msgid "Description"
 msgstr "Mô tả"
 
@@ -200,6 +226,7 @@ msgstr "Mô tả"
 #: model:ir.model.fields,field_description:worker.field_worker_source__display_name
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__display_name
 #: model:ir.model.fields,field_description:worker.field_worker_worker__display_name
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
 
@@ -245,6 +272,11 @@ msgid "Don't Know"
 msgstr "Không biết"
 
 #. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+msgid "Download Word"
+msgstr "Tải Word"
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__edu_background
 msgid "Education Background"
 msgstr "Trình độ học vấn"
@@ -275,6 +307,26 @@ msgid "Father Name"
 msgstr "Tên bố"
 
 #. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Filter A Type"
+msgstr "Form mã A"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Filter C Type"
+msgstr "Form mã C"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Filter N Type"
+msgstr "Form mã N"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Filter T Type"
+msgstr "Form mã T"
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__gender
 msgid "Gender"
 msgstr "Giới tính"
@@ -294,6 +346,11 @@ msgstr "Năm tốt nghiệp"
 #: model:res.groups,name:worker.group_worker_guest
 msgid "Guest"
 msgstr "Khách"
+
+#. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__head_code
+msgid "Head Code"
+msgstr ""
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__has_health_certificate
@@ -329,6 +386,7 @@ msgstr "Trung học phổ thông"
 #: model:ir.model.fields,field_description:worker.field_worker_source__id
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__id
 #: model:ir.model.fields,field_description:worker.field_worker_worker__id
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__id
 msgid "ID"
 msgstr "Số ID"
 
@@ -385,6 +443,11 @@ msgid "Judiciary"
 msgstr "Tư pháp"
 
 #. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Last Month"
+msgstr "Tháng trước"
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_broke__write_uid
 #: model:ir.model.fields,field_description:worker.field_worker_children__write_uid
 #: model:ir.model.fields,field_description:worker.field_worker_district__write_uid
@@ -398,6 +461,7 @@ msgstr "Tư pháp"
 #: model:ir.model.fields,field_description:worker.field_worker_source__write_uid
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__write_uid
 #: model:ir.model.fields,field_description:worker.field_worker_worker__write_uid
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__write_uid
 msgid "Last Updated by"
 msgstr "Cập nhạt lần cuối bởi"
 
@@ -415,6 +479,7 @@ msgstr "Cập nhạt lần cuối bởi"
 #: model:ir.model.fields,field_description:worker.field_worker_source__write_date
 #: model:ir.model.fields,field_description:worker.field_worker_vision_condition__write_date
 #: model:ir.model.fields,field_description:worker.field_worker_worker__write_date
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__write_date
 msgid "Last Updated on"
 msgstr "Cập nhật lần cuối trên"
 
@@ -489,8 +554,9 @@ msgstr ""
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__state__nn
-msgid "NNM: Abroad come back"
-msgstr "NNM: Đi nước ngoài về"
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker_state_count__state__nn
+msgid "N: Abroad come back"
+msgstr "N: Đi nước ngoài về"
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_broke__name
@@ -515,6 +581,7 @@ msgstr "Không có thông tin"
 #: model_terms:ir.actions.act_window,help:worker.recruiter_act_window
 #: model_terms:ir.actions.act_window,help:worker.relationship_act_window
 #: model_terms:ir.actions.act_window,help:worker.religion_act_window
+#: model_terms:ir.actions.act_window,help:worker.worker_state_count_act_window
 msgid "No data to list"
 msgstr "Không có thông tin"
 
@@ -529,9 +596,9 @@ msgid "North"
 msgstr "Bắc"
 
 #. module: worker
-#: model:ir.model.fields.selection,name:worker.selection__worker_worker__relative_in_Taiwan_address__twn
-msgid "North Taiwan"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Not Yet Translate"
+msgstr "Chưa dịch"
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__evaluation
@@ -3891,6 +3958,12 @@ msgid "Procedure progress"
 msgstr "Tiến trình giấy tờ"
 
 #. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker__process_trans_store
+#: model:ir.model.fields,field_description:worker.field_worker_worker__process_translate
+msgid "Process Translate"
+msgstr "Tiến độ dịch"
+
+#. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.vision_condition_form_view
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
 msgid "Profile"
@@ -3949,11 +4022,6 @@ msgid "Relationship List"
 msgstr "Danh sách mối quan hệ"
 
 #. module: worker
-#: model:ir.model.fields,field_description:worker.field_worker_worker__relative_in_Taiwan_address
-msgid "Relative In Taiwan Address"
-msgstr ""
-
-#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__relative_in_Taiwan_name
 msgid "Relative In Taiwan Name"
 msgstr "Tên người thân ở Đài Loan"
@@ -3981,6 +4049,11 @@ msgstr "Phải"
 #: model:ir.model.fields,field_description:worker.field_worker_worker__r_hand
 msgid "Right Hand"
 msgstr "Tay thuận"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Search"
+msgstr ""
 
 #. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__marital_status__sin
@@ -4012,12 +4085,8 @@ msgid "South"
 msgstr "Nam"
 
 #. module: worker
-#: model:ir.model.fields.selection,name:worker.selection__worker_worker__relative_in_Taiwan_address__tws
-msgid "South Taiwan"
-msgstr ""
-
-#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__state
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__state
 msgid "State"
 msgstr "Trạng thái"
 
@@ -4025,6 +4094,17 @@ msgstr "Trạng thái"
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
 msgid "Study at the academy"
 msgstr "Học tại trung tâm"
+
+#. module: worker
+#: model:res.groups,name:worker.group_worker_sub_manager
+msgid "Sub Manager"
+msgstr "Quản lý phụ"
+
+#. module: worker
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker__state__tw
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker_state_count__state__tw
+msgid "T: Taiwan come back"
+msgstr "T: Đi Đài Loan về"
 
 #. module: worker
 #: model:worker.province,name:worker.province_cantho
@@ -4057,11 +4137,6 @@ msgid "TP.Đà Nẵng"
 msgstr ""
 
 #. module: worker
-#: model:ir.model.fields.selection,name:worker.selection__worker_worker__state__tw
-msgid "TWM: Taiwan come back"
-msgstr "TWM: Đi Đài Loan về"
-
-#. module: worker
 #: model:ir.model,name:worker.model_worker_vision_condition
 msgid "The table for the vision condition"
 msgstr "Bảng bệnh mắt"
@@ -4075,6 +4150,11 @@ msgstr "Bảng lao động"
 #: model_terms:ir.actions.act_window,help:worker.source_act_window
 msgid "There is no examples click here to add new Source."
 msgstr "Không có thông tin"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "This Month"
+msgstr "Tháng này"
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_experience__time_range
@@ -4145,11 +4225,6 @@ msgstr "Nhập tôn giáo"
 #: model_terms:ir.ui.view,arch_db:worker.province_form_view
 msgid "Type zone"
 msgstr "Nhập vùng"
-
-#. module: worker
-#: model_terms:ir.ui.view,arch_db:worker.worker_form_view
-msgid "Tải Word"
-msgstr ""
 
 #. module: worker
 #: model:worker.province,name:worker.province_angiang
@@ -4371,7 +4446,7 @@ msgstr "Thông tin gia đình"
 #. module: worker
 #: model:ir.module.category,name:worker.worker_security
 msgid "Worker Security"
-msgstr "Bảo mật"
+msgstr "Bảo mật module quản lý lao động"
 
 #. module: worker
 #: model:ir.ui.menu,name:worker.menu_worker_root
@@ -16332,6 +16407,11 @@ msgid "Xã Ứng Thiên"
 msgstr ""
 
 #. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker_state_count__year
+msgid "Year"
+msgstr ""
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__year_mar_status
 msgid "Year Married (Divorce, Separated)"
 msgstr "Năm kết hôn (Li hôn)"
@@ -16352,9 +16432,19 @@ msgid "code"
 msgstr "Mã"
 
 #. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_form_view
+msgid "count"
+msgstr ""
+
+#. module: worker
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__gender__fem
 msgid "female"
 msgstr "Nữ"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_form_view
+msgid "head_code"
+msgstr ""
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
@@ -16365,6 +16455,28 @@ msgstr ""
 #: model:ir.model.fields.selection,name:worker.selection__worker_worker__gender__mal
 msgid "male"
 msgstr "Nam"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_form_view
+msgid "state"
+msgstr ""
+
+#. module: worker
+#: model:ir.actions.act_window,name:worker.worker_state_count_act_window
+#: model:ir.ui.menu,name:worker.menu_worker_state_count
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_form_view
+msgid "worker_state_count"
+msgstr ""
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_list_view
+msgid "worker_state_count List"
+msgstr ""
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_state_count_form_view
+msgid "year"
+msgstr ""
 
 #. module: worker
 #: model:worker.district,name:worker.district_dackhubachlongvi_haiphong

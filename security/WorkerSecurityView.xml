@@ -13,24 +13,30 @@
             <field name="category_id" ref="worker_security"/>
         </record>
 
+        <record id="group_worker_sub_manager" model="res.groups">
+            <field name="name">Sub Manager</field>
+            <field name="category_id" ref="worker_security"/>
+            <field name="implied_ids" eval="[(4, ref('group_worker_guest'))]"/>
+        </record>
+
         <record id="group_worker_manager" model="res.groups">
             <field name="name">Manager</field>
             <field name="category_id" ref="worker_security"/>
-            <field name="implied_ids" eval="[(4, ref('group_worker_guest'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_worker_sub_manager'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="group_worker_guest_rule" model="ir.rule">
-            <field name="name">Worker Guest Record Rule</field>
-            <field ref="model_worker_worker" name="model_id"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="perm_write" eval="0"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_unlink" eval="0"/>
-            <!-- You can attach this rule to a specific group, Or make it Global -->
-            <field name="groups" eval="[(4, ref('group_worker_guest'))]"/>
-            <!--<field name="global" eval="1"/> -->
-        </record>
+<!--        <record id="group_worker_guest_rule" model="ir.rule">-->
+<!--            <field name="name">Worker Guest Record Rule</field>-->
+<!--            <field ref="model_worker_worker" name="model_id"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="perm_write" eval="0"/>-->
+<!--            <field name="perm_create" eval="0"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="0"/>-->
+<!--            &lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+<!--            <field name="groups" eval="[(4, ref('group_worker_guest'))]"/>-->
+<!--            &lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+<!--        </record>-->
     </data>
 </odoo>

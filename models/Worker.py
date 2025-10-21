@@ -1,3 +1,4 @@
+from docutils.nodes import title
 from odoo import api, fields, models
 from datetime import date
 from docxtpl import DocxTemplate, InlineImage, RichText
@@ -13,6 +14,7 @@ from odoo.addons.worker.utils import Var
 class Worker(models.Model):
     _name = 'worker.worker'
     _description = 'The table for the worker'
+    _order = "create_date desc"
 
     #image
     image = fields.Binary()
@@ -213,16 +215,6 @@ class Worker(models.Model):
         "worker.job",
         string = "Job",
     )
-    # relative_in_Taiwan_address = fields.Selection(
-    #     [
-    #         ("twn", "North Taiwan"),
-    #         ("twc", "Central Taiwan"),
-    #         ("tws", "South Taiwan")
-    #     ],
-    #     string="Relative In Taiwan Address",
-    #     default="twn"
-    # )
-    #---
     num_of_sib = fields.Integer(string="Number of Siblings")
     birth_order = fields.Integer(string="Birth Order")
 
@@ -275,6 +267,15 @@ class Worker(models.Model):
         search="_search_created_last_month"
     )
 
+    process_translate = fields.Char(
+        string="Process Translate",
+        compute="_compute_process_translate",
+    )
+
+    process_trans_store = fields.Float(
+        string="Process Translate",
+        store=True,
+    )
 
 
     def has_Taiwan_relative(self):
@@ -380,6 +381,102 @@ class Worker(models.Model):
 
         return res
 
+    @api.depends('name',
+                 'province',
+                 'work_experience',
+                 'father_job',
+                 'mother_job',
+                 'partner_job',
+                 'relationship_with_relative_in_Taiwan',
+                 'relative_in_Taiwan_job',
+                 'major',
+                 'broke',
+                 'recruiter'
+            )
+    def _compute_process_translate(self):
+        for rec in self:
+            fields_to_check = [
+                'name',
+                'province.name',
+                'work_experience.name',
+                'father_job.name',
+                'mother_job.name',
+                'partner_job.name',
+                'relationship_with_relative_in_Taiwan.name',
+                'relative_in_Taiwan_job.name',
+                'major.name',
+                'broke.name',
+                'recruiter.name'
+            ]
+            total = 0
+            count = 0
+
+            for path in fields_to_check:
+                root = rec.mapped(path)
+                if not root:
+                    continue
+
+                trans = rec.with_context(lang='zh_TW').mapped(path)
+                total += 1
+                if trans and root != trans:
+                    count += 1
+
+            percent = (count / total) * 100
+            rec.process_trans_store = percent
+
+            rec.process_translate = f"{percent:.0f} %" if total > 0 else "0 %"
+
+    def action_check_info(self):
+        self.ensure_one()
+        self._compute_process_translate()
+        if self.process_translate == "100 %":
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': Var.vietnameese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
+                    'message': "",
+                    'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
+                    'sticky': False,
+                }
+            }
+
+        fields_to_check = [
+            'name',
+            'province.name',
+            'work_experience.name',
+            'father_job.name',
+            'mother_job.name',
+            'partner_job.name',
+            'relationship_with_relative_in_Taiwan.name',
+            'relative_in_Taiwan_job.name',
+            'major.name',
+            'broke.name',
+            'recruiter.name'
+        ]
+
+        msg = ""
+
+        for path in fields_to_check:
+            root = self.mapped(path)
+            trans = self.with_context(lang='zh_TW').mapped(path)
+
+            if not root:
+                continue
+
+            if not trans or (trans and root == trans):
+                msg += (str(Var.vietnameese_dict.get(Var.check_process_dict.get(path))) + ", ")
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': Var.vietnameese_dict.get(Var.EnumVietnamese.NOT_YET_TRANSLATE),
+                'message': msg,
+                'type': Var.toast_type_dict.get(Var.EnumToastType.WARNING),
+                'sticky': False,
+            }
+        }
 
     def image_base64_convert(self, base64_img, doc=None, height_cm=4.0):
         if not base64_img or not doc:

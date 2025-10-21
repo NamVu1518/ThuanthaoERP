@@ -1,3 +1,59 @@
+from enum import Enum, auto
+
+class EnumToastType(Enum):
+    WARNING = auto()
+    SUCCESS = auto()
+
+class EnumVietnamese(Enum):
+    NOT_YET_TRANSLATE = auto()
+    NAME = auto()
+    FATHER_JOB = auto()
+    MOTHER_JOB = auto()
+    PARTNER_JOB = auto()
+    PROVINCE = auto()
+    WORK_EXPERIENCE = auto()
+    RELATIONSHIP_WITH_RELATIVE_IN_TAIWAN = auto()
+    RELATIVE_IN_TAIWAN_JOB = auto()
+    MAJOR = auto()
+    BROKE = auto()
+    RECRUITER = auto()
+    TRANSLATE_SUCCESS_ALL = auto()
+
+vietnameese_dict = {
+    EnumVietnamese.NOT_YET_TRANSLATE: "Chưa dịch",
+    EnumVietnamese.NAME: "Tên",
+    EnumVietnamese.FATHER_JOB: "Công việc của bố",
+    EnumVietnamese.MOTHER_JOB: "Công việc của mẹ",
+    EnumVietnamese.PARTNER_JOB: "Công việc của bạn đời",
+    EnumVietnamese.PROVINCE: "Tỉnh",
+    EnumVietnamese.WORK_EXPERIENCE: "Kinh nghiệm",
+    EnumVietnamese.RELATIONSHIP_WITH_RELATIVE_IN_TAIWAN: "Mối quan hệ với người thân ở Đài loan",
+    EnumVietnamese.RELATIVE_IN_TAIWAN_JOB: "Công việc của người thân ở Đài Loan",
+    EnumVietnamese.MAJOR: "Chuyên ngành",
+    EnumVietnamese.BROKE: "Mô giới",
+    EnumVietnamese.RECRUITER: "Nhà tuyển dụng",
+    EnumVietnamese.TRANSLATE_SUCCESS_ALL: "Hoàn thành phiên dịch"
+}
+
+check_process_dict = {
+    'name': EnumVietnamese.NAME,
+    'province.name': EnumVietnamese.PROVINCE,
+    'work_experience.name': EnumVietnamese.WORK_EXPERIENCE,
+    'father_job.name': EnumVietnamese.FATHER_JOB,
+    'mother_job.name': EnumVietnamese.MOTHER_JOB,
+    'partner_job.name': EnumVietnamese.PARTNER_JOB,
+    'relationship_with_relative_in_Taiwan.name': EnumVietnamese.RELATIONSHIP_WITH_RELATIVE_IN_TAIWAN,
+    'relative_in_Taiwan_job.name': EnumVietnamese.RELATIVE_IN_TAIWAN_JOB,
+    'major.name': EnumVietnamese.MAJOR,
+    'broke.name': EnumVietnamese.BROKE,
+    'recruiter.name': EnumVietnamese.RECRUITER,
+}
+
+toast_type_dict = {
+    EnumToastType.WARNING: "WARNING",
+    EnumToastType.SUCCESS: "SUCCESS",
+}
+
 PRESENT = '現在'
 CHECKBOX_UNTICK = "☐"
 CHECKBOX_TICK = "☑"
@@ -44,3 +100,7 @@ state_code_dict = {
     "cd": "C",
 }
 year_start = 2000
+
+
+
+
