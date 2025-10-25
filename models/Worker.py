@@ -274,6 +274,7 @@ class Worker(models.Model):
 
     process_trans_store = fields.Float(
         string="Process Translate",
+        compute="_compute_process_trans_store",
         store=True,
     )
 
@@ -329,10 +330,14 @@ class Worker(models.Model):
         start_of_year = f"{today.year}-01-01 00:00:00"
         return [('create_date', '>=', start_of_year)]
 
+
+
     @api.depends('create_date')
     def _compute_is_created_this_month(self):
         for rec in self:
             rec.is_created_this_month = rec.create_date and rec.create_date.month == date.today().month
+
+
 
     @api.model
     def _search_created_this_month(self, operator, value):
@@ -342,10 +347,14 @@ class Worker(models.Model):
         start_of_this_month = f"{today.year}-{today.month}-01 00:00:00"
         return [('create_date', '>=', start_of_this_month)]
 
+
+
     @api.depends('create_date')
     def _compute_is_created_this_month(self):
         for rec in self:
             rec.is_created_last_month = rec.create_date and rec.create_date.month == date.today().month - 1
+
+
 
     @api.model
     def _search_created_last_month(self, operator, value):
@@ -355,6 +364,8 @@ class Worker(models.Model):
         start_of_last_month = f"{today.year}-{today.month - 1}-01 00:00:00"
         end_of_last_month = f"{today.year}-{today.month}-01 00:00:00"
         return [('create_date', '>=', start_of_last_month), ('create_date', '<', end_of_last_month)]
+
+
 
     def write(self, vals):
         old_states = {rec.id: rec.state for rec in self}
@@ -381,6 +392,15 @@ class Worker(models.Model):
 
         return res
 
+
+
+    @api.depends('process_trans_store')
+    def _compute_process_translate(self):
+        for rec in self:
+            rec.process_translate = f"{rec.process_trans_store:.0f} %"
+
+
+
     @api.depends('name',
                  'province',
                  'work_experience',
@@ -393,7 +413,7 @@ class Worker(models.Model):
                  'broke',
                  'recruiter'
             )
-    def _compute_process_translate(self):
+    def _compute_process_trans_store(self):
         for rec in self:
             fields_to_check = [
                 'name',
@@ -421,10 +441,9 @@ class Worker(models.Model):
                 if trans and root != trans:
                     count += 1
 
-            percent = (count / total) * 100
-            rec.process_trans_store = percent
+            rec.process_trans_store = (count / total) * 100 if total > 0 else 0
 
-            rec.process_translate = f"{percent:.0f} %" if total > 0 else "0 %"
+
 
     def action_check_info(self):
         self.ensure_one()
@@ -478,6 +497,9 @@ class Worker(models.Model):
             }
         }
 
+
+
+
     def image_base64_convert(self, base64_img, doc=None, height_cm=4.0):
         if not base64_img or not doc:
             return None
@@ -493,10 +515,13 @@ class Worker(models.Model):
         return Var.CHECKBOX_UNTICK
 
 
+
+
     def print_color_text(self, text, color):
         rt = RichText()
         rt.add(text, color=color)
         return rt
+
 
 
 

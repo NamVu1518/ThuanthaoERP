@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250915\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-21 16:37+0000\n"
-"PO-Revision-Date: 2025-10-21 16:37+0000\n"
+"POT-Creation-Date: 2025-10-21 16:56+0000\n"
+"PO-Revision-Date: 2025-10-21 16:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -320,6 +320,11 @@ msgstr "Form mã C"
 #: model_terms:ir.ui.view,arch_db:worker.worker_search_view
 msgid "Filter N Type"
 msgstr "Form mã N"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_search_view
+msgid "Filter Source"
+msgstr "Nguồn"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_search_view
