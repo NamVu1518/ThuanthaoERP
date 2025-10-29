@@ -23,7 +23,8 @@ class Worker(models.Model):
     name = fields.Char(
         string="Name",
         required=True,
-        translate=True
+        translate=True,
+        index=True
     )
     state = fields.Selection(
         [
@@ -33,17 +34,21 @@ class Worker(models.Model):
             ("cd", "C: Designation")
         ],
         string="State",
-        default='ab'
+        default='ab',
+        index=True
     )
     source = fields.Many2one(
         "worker.source",
         string="Source",
+        index=True,
+        ondeleta="set null"
     )
     code = fields.Char(
         store=True,
         readonly=True,
         compute='_compute_code',
-        string="Code"
+        string="Code",
+        index=True
     )
     age = fields.Integer(
         string="Age",
@@ -63,28 +68,33 @@ class Worker(models.Model):
     date_of_issue = fields.Date(string="Date of Issue")
     place_of_issue = fields.Many2one(
         "worker.province",
-        string="Place Of Issue"
+        string="Place Of Issue",
+        ondeleta="set null"
     )
     religion = fields.Many2one(
         "worker.religion",
-        string="Religion"
+        string="Religion",
+        ondeleta="set null"
     )
     dob = fields.Date(string="Date Of Birth")
     pob = fields.Many2one(
         "worker.province",
-        string="Place of birth"
+        string="Place of birth",
+        ondeleta="set null"
     )
 
     #Contact information
     phone_worker = fields.Char(string="Phone")
     province = fields.Many2one(
         "worker.province",
-        string="Province"
+        string="Province",
+        ondeleta="set null"
     )
     district = fields.Many2one(
         "worker.district",
         domain="[('province_id', '=', province)]",
-        string="District"
+        string="District",
+        ondeleta="set null"
     )
     address = fields.Char(string="Address")
 
@@ -142,6 +152,7 @@ class Worker(models.Model):
     major = fields.Many2one(
         "worker.major",
         string="Major",
+        ondelete="set null"
     )
     gra_year = fields.Char(string="Graduation year")
     eng_pro = fields.Selection(
@@ -174,6 +185,7 @@ class Worker(models.Model):
     father_job = fields.Many2one(
         "worker.job",
         string = "Job",
+        ondelete="set null"
     )
     # ----
     mother_name = fields.Char(string="Mother Name")
@@ -186,6 +198,7 @@ class Worker(models.Model):
     mother_job = fields.Many2one(
         "worker.job",
         string="Job",
+        ondelete="set null"
     )
     #---
     partner_name = fields.Char(string="Partner Name")
@@ -198,6 +211,7 @@ class Worker(models.Model):
     partner_job = fields.Many2one(
         "worker.job",
         string="Job",
+        ondelete="set null"
     )
     #---
     children_ids = fields.One2many(
@@ -214,6 +228,7 @@ class Worker(models.Model):
     relative_in_Taiwan_job = fields.Many2one(
         "worker.job",
         string = "Job",
+        ondelete="set null"
     )
     num_of_sib = fields.Integer(string="Number of Siblings")
     birth_order = fields.Integer(string="Birth Order")
@@ -242,11 +257,13 @@ class Worker(models.Model):
     #Humam Resource
     broke = fields.Many2one(
         "worker.broke",
-        string="Broke"
+        string="Broke",
+        ondelete="set null"
     )
     recruiter = fields.Many2one(
         "worker.recruiter",
-        string="Recruiter"
+        string="Recruiter",
+        ondelete="set null"
     )
 
     is_created_this_year = fields.Boolean(
@@ -276,6 +293,7 @@ class Worker(models.Model):
         string="Process Translate",
         compute="_compute_process_trans_store",
         store=True,
+        index=True
     )
 
 
