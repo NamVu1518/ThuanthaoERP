@@ -1,4 +1,9 @@
 from enum import Enum, auto
+from odoo.modules.module import get_module_resource
+
+class EnumGender(Enum):
+    MALE = auto()
+    FEMALE = auto()
 
 class EnumToastType(Enum):
     WARNING = auto()
@@ -100,6 +105,10 @@ state_code_dict = {
     "cd": "C",
 }
 year_start = 2000
+template_path_dict = {
+    EnumGender.MALE: get_module_resource("worker", "static", "src", "template", "template_male.docx"),
+    EnumGender.FEMALE: get_module_resource("worker", "static", "src", "template", "template_female.docx"),
+}
 
 
 

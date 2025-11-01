@@ -184,8 +184,8 @@
                                     <b>Children Age Info</b>
                                     <field name="children_ids" nolabel="1">
                                         <list editable="bottom">
-                                            <field name="birth_year"/>
                                             <field name="age"/>
+                                            <field name="birth_year" readonly="1"/>
                                         </list>
                                     </field>
                                 </group>

@@ -6,12 +6,16 @@ class Children(models.Model):
     _name = 'worker.children'
     _description = 'Worker Children'
 
-    birth_year = fields.Integer(string="Birth Year")
+    birth_year = fields.Integer(
+        string="Birth Year",
+        store=True,
+    )
 
     age = fields.Integer(
         string="Age",
         compute="_compute_age",
-        store=True
+        readonly=False,
+        store=False
     )
 
     worker_id = fields.Many2one(
@@ -28,3 +32,16 @@ class Children(models.Model):
                 rec.age = current_year - rec.birth_year
             else:
                 rec.age = 0
+
+
+    @api.model
+    def create(self, vals):
+        if vals.get("age") and not vals.get("birth_year"):
+            vals["birth_year"] = date.today().year - vals["age"]
+        return super().create(vals)
+
+
+    def write(self, vals):
+        if vals.get("age") and not vals.get("birth_year"):
+            vals["birth_year"] = date.today().year - vals["age"]
+        return super().write(vals)

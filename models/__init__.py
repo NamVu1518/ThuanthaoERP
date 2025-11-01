@@ -1,4 +1,4 @@
-from . import Worker
+from . import WorkerModule
 from . import VisionCondition
 from . import WorkExperience
 from . import Relationship
