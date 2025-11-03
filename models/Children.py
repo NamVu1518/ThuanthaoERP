@@ -34,6 +34,12 @@ class Children(models.Model):
                 rec.age = 0
 
 
+    @api.onchange("age")
+    def _compute_birth_year(self):
+        if self.age:
+            self.birth_year = date.today().year - self.age
+
+
     @api.model
     def create(self, vals):
         if vals.get("age") and not vals.get("birth_year"):

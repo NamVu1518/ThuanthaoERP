@@ -41,7 +41,10 @@
             </field>
         </record>
 
-        <menuitem id="menu_religion" name="Religion"
-                  parent="menu_worker_root" action="religion_act_window" groups="worker.group_worker_manager"/>
+        <menuitem id="menu_religion"
+                  name="Religion"
+                  parent="menu_worker_root"
+                  action="religion_act_window"
+                  groups="worker.group_worker_manager"/>
     </data>
 </odoo>

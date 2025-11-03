@@ -32,17 +32,6 @@ class WorkerAction(models.Model):
             rec.partner_age = rec._sub_com_age_relatives(rec.partner_birth)
 
 
-    @api.model
-    def create(self, vals):
-        record = super().create(vals)
-        if record.state:
-            state_count = record.env["worker.worker_state_count"].search(
-                [("state", "=", record.state)], limit=1
-            )
-            record.code = state_count.create_new_code()
-        return record
-
-
     @api.depends('create_date')
     def _compute_is_created_this_year(self):
         for rec in self:
@@ -129,22 +118,6 @@ class WorkerAction(models.Model):
             rec.process_trans_store = (count / total) * 100 if total > 0 else 0
 
 
-    def action_check_info(self):
-        self.ensure_one()
-        self._compute_process_translate()
-        if self.process_translate == "100 %":
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': Var.vietnameese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
-                    'message': "",
-                    'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
-                    'sticky': False,
-                }
-            }
-
-
     def action_download_docx(self):
         self.ensure_one()
         return {
@@ -162,7 +135,7 @@ class WorkerAction(models.Model):
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
-                    'title': Var.vietnameese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
+                    'title': Var.vietnamese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
                     'message': "",
                     'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
                     'sticky': False,
@@ -175,6 +148,7 @@ class WorkerAction(models.Model):
             'relative_in_Taiwan_job.name', 'major.name', 'broke.name', 'recruiter.name'
         ]
 
+        msg = ""
         for path in fields_to_check:
             root = self.mapped(path)
             trans = self.with_context(lang='zh_TW').mapped(path)
@@ -183,13 +157,13 @@ class WorkerAction(models.Model):
                 continue
 
             if not trans or (trans and root == trans):
-                msg += (str(Var.vietnameese_dict.get(Var.check_process_dict.get(path))) + ", ")
+                msg += (str(Var.vietnamese_dict.get(Var.check_process_dict.get(path))) + ", ")
 
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': Var.vietnameese_dict.get(Var.EnumVietnamese.NOT_YET_TRANSLATE),
+                'title': Var.vietnamese_dict.get(Var.EnumVietnamese.NOT_YET_TRANSLATE),
                 'message': msg,
                 'type': Var.toast_type_dict.get(Var.EnumToastType.WARNING),
                 'sticky': False,
@@ -197,32 +171,57 @@ class WorkerAction(models.Model):
         }
 
 
-    def on_change_state_records(self, old_states, vals):
-        if 'state' in vals:
-            for rec in self:
-                old_state = old_states[rec.id]
-                new_state = rec.state
+    def action_approve_form(self):
+        self.ensure_one()
+        new_rec = self.copy()
+        self.unlink()
 
-                if old_state:
-                    old_state_count = rec.env['worker.worker_state_count'].search(
-                        [('state', '=', old_state)], limit=1
-                    )
-                    old_state_count.delete_one()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': Var.vietnamese_dict.get(Var.EnumVietnamese.APPROVED_SUCCESSFULLY),
+                'message': "",
+                'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
+                'sticky': False,
+            }
+        }
 
-                if new_state:
-                    new_state_count = rec.env['worker.worker_state_count'].search(
-                        [('state', '=', new_state)], limit=1
-                    )
-                    rec.code = new_state_count.create_new_code()
-                else:
-                    rec.code = ""
+
+    def action_change_lang(self):
+        user = self.env.user
+
+        new_lang = 'vi_VN' if user.lang == 'zh_TW' else 'zh_TW'
+
+        lang_installed = self.env['res.lang'].search([
+            ('code', '=', new_lang),
+            ('active', '=', True)
+        ], limit=1)
+
+        if not lang_installed:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
+                    'message': new_lang,
+                    'type': Var.toast_type_dict.get(Var.EnumToastType.WARNING),
+                    'sticky': False,
+                }
+            }
+
+        user.lang = new_lang
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload_context',  # reload toàn webclient, không redirect
+        }
 
 
     def write(self, vals):
         old_states = {rec.id: rec.state for rec in self}
         res = super().write(vals)
         self.on_change_state_records(old_states, vals)
-
         return res
 
 

@@ -41,7 +41,10 @@
             </field>
         </record>
 
-        <menuitem id="menu_recruiter" name="Recruiter"
-                  parent="menu_worker_root" action="recruiter_act_window" groups="worker.group_worker_manager"/>
+        <menuitem id="menu_recruiter"
+                  name="Recruiter"
+                  parent="menu_worker_root"
+                  action="recruiter_act_window"
+                  groups="worker.group_worker_manager"/>
     </data>
 </odoo>

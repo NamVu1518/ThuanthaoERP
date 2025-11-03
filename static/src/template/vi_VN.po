@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250915\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-21 16:56+0000\n"
-"PO-Revision-Date: 2025-10-21 16:56+0000\n"
+"POT-Creation-Date: 2025-11-03 08:26+0000\n"
+"PO-Revision-Date: 2025-11-03 08:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,7 @@ msgstr ""
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "<b>Children Age Info</b>"
 msgstr "<b>Tuổi các con</b>"
 
@@ -46,7 +47,18 @@ msgid "Age"
 msgstr "Tuổi"
 
 #. module: worker
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker__form_status__app
+msgid "Approval"
+msgstr ""
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
+msgid "Approve Form"
+msgstr "Duyệt form"
+
+#. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Basic Information"
 msgstr "Thông tin cơ bản"
 
@@ -94,6 +106,13 @@ msgstr "Trung Tâm"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
+msgid "Change Language"
+msgstr "Đổi ngôn ngữ"
+
+#. module: worker
+#: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Check Translate"
 msgstr "Kiểm tra dịch"
 
@@ -121,6 +140,7 @@ msgstr "Cao Đẳng"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Contact Information"
 msgstr "Thông tin liên lạc"
 
@@ -274,7 +294,7 @@ msgstr "Không biết"
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
 msgid "Download Word"
-msgstr "Tải Word"
+msgstr "Tải word"
 
 #. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__edu_background
@@ -283,6 +303,7 @@ msgstr "Trình độ học vấn"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Educational information"
 msgstr "Thông tin học vấn"
 
@@ -332,6 +353,11 @@ msgid "Filter T Type"
 msgstr "Form mã T"
 
 #. module: worker
+#: model:ir.model.fields,field_description:worker.field_worker_worker__form_status
+msgid "Form Status"
+msgstr ""
+
+#. module: worker
 #: model:ir.model.fields,field_description:worker.field_worker_worker__gender
 msgid "Gender"
 msgstr "Giới tính"
@@ -364,6 +390,7 @@ msgstr "Giấy khám sức khỏe"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Health Information"
 msgstr "Thông tin sức khỏe"
 
@@ -505,6 +532,7 @@ msgstr "Danh sách bênh mắt"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_list_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_list_view
 msgid "List View Worker"
 msgstr "Danh sách lao động"
 
@@ -574,6 +602,7 @@ msgstr "Tên"
 #. module: worker
 #: model_terms:ir.actions.act_window,help:worker.vision_condition_act_window
 #: model_terms:ir.actions.act_window,help:worker.worker_act_window
+#: model_terms:ir.actions.act_window,help:worker.worker_pending_approval_act_window
 msgid "No Information To View"
 msgstr "Không có thông tin"
 
@@ -626,7 +655,13 @@ msgid "Passport"
 msgstr "Hộ chiếu"
 
 #. module: worker
+#: model:ir.model.fields.selection,name:worker.selection__worker_worker__form_status__pen
+msgid "Pending Approval"
+msgstr ""
+
+#. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Personal Information"
 msgstr "Thông tin cá nhân"
 
@@ -3959,6 +3994,7 @@ msgstr "Trường tiều học"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Procedure progress"
 msgstr "Tiến trình giấy tờ"
 
@@ -3971,6 +4007,7 @@ msgstr "Tiến độ dịch"
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.vision_condition_form_view
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Profile"
 msgstr ""
 
@@ -4097,6 +4134,7 @@ msgstr "Trạng thái"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Study at the academy"
 msgstr "Học tại trung tâm"
 
@@ -4208,6 +4246,7 @@ msgstr "Nhập tên bệnh mắt"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Type name of worker"
 msgstr "Nhập tên lao động"
 
@@ -4420,6 +4459,7 @@ msgstr "Con của lao động"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Worker Experience"
 msgstr "Kinh nghiệm lao động"
 
@@ -4444,7 +4484,14 @@ msgid "Worker Manager"
 msgstr "Quản lý lao động"
 
 #. module: worker
+#: model:ir.actions.act_window,name:worker.worker_pending_approval_act_window
+#: model:ir.ui.menu,name:worker.menu_worker_pending_approval
+msgid "Worker Pending Approval"
+msgstr "Form chờ duyệt"
+
+#. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "Worker Relative"
 msgstr "Thông tin gia đình"
 
@@ -16428,6 +16475,7 @@ msgstr "Vùng"
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "cm"
 msgstr ""
 
@@ -16453,6 +16501,7 @@ msgstr ""
 
 #. module: worker
 #: model_terms:ir.ui.view,arch_db:worker.worker_form_view
+#: model_terms:ir.ui.view,arch_db:worker.worker_pending_approval_form_view
 msgid "kg"
 msgstr ""
 

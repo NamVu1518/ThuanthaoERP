@@ -33,6 +33,7 @@ Main Features:
         'views/Recruiter.xml',
         'views/Major.xml',
         'views/WorkerStateCount.xml',
+        'views/worker_pending_approval.xml',
         'data/province.xml',
         'data/district.xml',
         'data/vision_condition.xml',

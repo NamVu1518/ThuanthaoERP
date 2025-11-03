@@ -46,7 +46,10 @@
             </field>
         </record>
 
-        <menuitem id="menu_district" name="District"
-                  parent="menu_worker_root" action="district_act_window" groups="worker.group_worker_manager"/>
+        <menuitem id="menu_district"
+                  name="District"
+                  parent="menu_worker_root"
+                  action="district_act_window"
+                  groups="worker.group_worker_manager"/>
     </data>
 </odoo>

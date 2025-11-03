@@ -6,8 +6,20 @@ class Worker(models.Model):
     _description = 'The table for the worker'
     _order = "create_date desc"
 
+
+    form_status = fields.Selection(
+        [
+            ("pen", "Pending Approval"),
+            ("app", "Approval"),
+        ],
+        readonly=True,
+        default='pen',
+        string='Form Status'
+    )
+
     #image
     image = fields.Binary()
+
 
     #Form information
     name = fields.Char(
@@ -73,12 +85,13 @@ class Worker(models.Model):
         ondeleta="set null"
     )
 
+
     #Contact information
     phone_worker = fields.Char(string="Phone")
     province = fields.Many2one(
         "worker.province",
         string="Province",
-        ondeleta="set null"
+        ondelete="set null"
     )
     district = fields.Many2one(
         "worker.district",
@@ -87,6 +100,7 @@ class Worker(models.Model):
         ondeleta="set null"
     )
     address = fields.Char(string="Address")
+
 
     #Health information
     height = fields.Integer(string="Height")
@@ -112,6 +126,7 @@ class Worker(models.Model):
     has_limb_disability = fields.Boolean(string="Limb disability")
     has_cosmetic_surgery = fields.Boolean(string="Cosmetic surgery")
 
+
     #Personal Information
     is_demobilized_soldier = fields.Boolean(string="Is Demobilized Soldier")
     marital_status = fields.Selection(
@@ -124,6 +139,7 @@ class Worker(models.Model):
         default="sin"
     )
     year_mar_status = fields.Char(string="Year Married (Divorce, Separated)", default="2000")
+
 
     #Educational information
     edu_background = fields.Selection(
@@ -163,6 +179,7 @@ class Worker(models.Model):
         string="Chinese Proficiency",
         default="low",
     )
+
 
     #Worker Relative
     father_name = fields.Char(string="Father Name")
@@ -222,7 +239,6 @@ class Worker(models.Model):
     )
     num_of_sib = fields.Integer(string="Number of Siblings")
     birth_order = fields.Integer(string="Birth Order")
-
 
 
     #Work experience

@@ -176,3 +176,48 @@ class WorkerLogic(models.Model):
         return doc_bytes
 
 
+    def on_change_state_records(self, old_states, vals):
+        if 'state' in vals:
+            for rec in self:
+                old_state = old_states[rec.id]
+                new_state = rec.state
+
+                if old_state:
+                    old_state_count = rec.env['worker.worker_state_count'].search(
+                        [('state', '=', old_state)], limit=1
+                    )
+                    old_state_count.delete_one()
+
+                if new_state:
+                    new_state_count = rec.env['worker.worker_state_count'].search(
+                        [('state', '=', new_state)], limit=1
+                    )
+                    rec.code = new_state_count.create_new_code()
+                else:
+                    rec.code = ""
+
+
+    def create_code(self, record, is_create):
+        if not is_create:
+            record.code = "NOCODE"
+            return
+
+        if record.state:
+            state_count = self.env["worker.worker_state_count"].search(
+                [("state", "=", record.state)], limit=1
+            )
+            record.code = state_count.create_new_code()
+
+
+    def change_form_status(self, recordset, form_stat):
+        for record in recordset:
+            if record.form_status == form_stat:
+                continue
+            else:
+                record.form_status = form_stat
+
+
+
+
+
+

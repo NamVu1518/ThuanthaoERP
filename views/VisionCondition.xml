@@ -44,7 +44,11 @@
             </field>
         </record>
 
-        <menuitem id="menu_vision_condition" name="Vision Condition" sequence="2"
-                  parent="menu_worker_root" action="vision_condition_act_window" groups="worker.group_worker_manager"/>
+        <menuitem id="menu_vision_condition"
+                  name="Vision Condition"
+                  sequence="10"
+                  parent="menu_worker_root"
+                  action="vision_condition_act_window"
+                  groups="worker.group_worker_manager"/>
     </data>
 </odoo>

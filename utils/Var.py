@@ -23,8 +23,10 @@ class EnumVietnamese(Enum):
     BROKE = auto()
     RECRUITER = auto()
     TRANSLATE_SUCCESS_ALL = auto()
+    APPROVED_SUCCESSFULLY = auto()
+    LANGUAGE_CHANGE_ERROR = auto()
 
-vietnameese_dict = {
+vietnamese_dict = {
     EnumVietnamese.NOT_YET_TRANSLATE: "Chưa dịch",
     EnumVietnamese.NAME: "Tên",
     EnumVietnamese.FATHER_JOB: "Công việc của bố",
@@ -37,7 +39,9 @@ vietnameese_dict = {
     EnumVietnamese.MAJOR: "Chuyên ngành",
     EnumVietnamese.BROKE: "Mô giới",
     EnumVietnamese.RECRUITER: "Nhà tuyển dụng",
-    EnumVietnamese.TRANSLATE_SUCCESS_ALL: "Hoàn thành phiên dịch"
+    EnumVietnamese.TRANSLATE_SUCCESS_ALL: "Hoàn thành phiên dịch",
+    EnumVietnamese.APPROVED_SUCCESSFULLY: "Duyệt thành công",
+    EnumVietnamese.LANGUAGE_CHANGE_ERROR: "Có lỗi trong quá trình chuyển đổi ngôn ngữ, hãy liên hệ quản trị viên"
 }
 
 check_process_dict = {

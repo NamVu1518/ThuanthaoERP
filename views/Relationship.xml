@@ -41,7 +41,10 @@
             </field>
         </record>
 
-        <menuitem id="menu_relationship" name="Relationship"
-                  parent="menu_worker_root" action="relationship_act_window" groups="worker.group_worker_manager"/>
+        <menuitem id="menu_relationship"
+                  name="Relationship"
+                  parent="menu_worker_root"
+                  action="relationship_act_window"
+                  groups="worker.group_worker_manager"/>
     </data>
 </odoo>
