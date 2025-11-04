@@ -91,28 +91,47 @@ class WorkerAction(models.Model):
             rec.process_translate = f"{rec.process_trans_store:.0f} %"
 
 
-    @api.depends('name', 'province', 'work_experience', 'father_job', 'mother_job',
-                 'partner_job', 'relationship_with_relative_in_Taiwan',
-                 'relative_in_Taiwan_job', 'major', 'broke', 'recruiter'
-            )
+    def _check_install_lang(self):
+        Lang = self.env['res.lang']
+        lang_vi = Lang.search([('code', '=', 'vi_VN')], limit=1)
+        lang_zh = Lang.search([('code', '=', 'zh_TW')], limit=1)
+
+        if not (lang_vi and lang_zh):
+            return False
+        return True
+
+
+    @api.depends(
+        'name', 'province', 'work_experience', 'father_job', 'mother_job',
+        'partner_job', 'relationship_with_relative_in_Taiwan',
+        'relative_in_Taiwan_job', 'major', 'broke', 'recruiter'
+    )
     def _compute_process_trans_store(self):
+        if self._check_install_lang():
+            return
+
+        fields_to_check = [
+            'name', 'province.name', 'work_experience.name', 'father_job.name',
+            'mother_job.name', 'partner_job.name', 'relationship_with_relative_in_Taiwan.name',
+            'relative_in_Taiwan_job.name', 'major.name', 'broke.name', 'recruiter.name'
+        ]
+
         for rec in self:
-            fields_to_check = [
-                'name', 'province.name', 'work_experience.name', 'father_job.name',
-                'mother_job.name', 'partner_job.name', 'relationship_with_relative_in_Taiwan.name',
-                'relative_in_Taiwan_job.name', 'major.name', 'broke.name', 'recruiter.name'
-            ]
             total = 0
             count = 0
 
             for path in fields_to_check:
-                root = rec.mapped(path)
+                root = rec.with_context(lang='vi_VN').mapped(path)
+                trans = rec.with_context(lang='zh_TW').mapped(path)
+
                 if not root:
                     continue
 
-                trans = rec.with_context(lang='zh_TW').mapped(path)
                 total += 1
-                if trans and root != trans:
+                root_str = str(root)
+                trans_str = str(trans)
+
+                if trans_str and root_str != trans_str:
                     count += 1
 
             rec.process_trans_store = (count / total) * 100 if total > 0 else 0
@@ -127,20 +146,36 @@ class WorkerAction(models.Model):
         }
 
 
-    def action_check_info(self):
-        self.ensure_one()
-        self._compute_process_translate()
-        if self.process_translate == "100 %":
-            return {
+    def _send_client_msg(self, title, msg, type):
+        return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
-                    'title': Var.vietnamese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
-                    'message': "",
-                    'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
+                    'title': title,
+                    'message': msg,
+                    'type': type,
                     'sticky': False,
                 }
             }
+
+
+    def action_check_info(self):
+        self.ensure_one()
+
+        if self._check_install_lang():
+            return self._send_client_msg(
+                Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
+                "",
+                Var.toast_type_dict.get(Var.EnumToastType.WARNING)
+            )
+
+        self._compute_process_translate()
+        if self.process_translate == "100 %":
+            return self._send_client_msg(
+                Var.vietnamese_dict.get(Var.EnumVietnamese.TRANSLATE_SUCCESS_ALL),
+                "",
+                Var.toast_type_dict.get(Var.EnumToastType.SUCCESS)
+            )
 
         fields_to_check = [
             'name', 'province.name', 'work_experience.name', 'father_job.name', 'mother_job.name',
@@ -150,25 +185,20 @@ class WorkerAction(models.Model):
 
         msg = ""
         for path in fields_to_check:
-            root = self.mapped(path)
+            root = self.with_context(lang='vi_VN').mapped(path)
             trans = self.with_context(lang='zh_TW').mapped(path)
 
             if not root:
                 continue
 
-            if not trans or (trans and root == trans):
+            if not trans or (trans and str(root) == str(trans)):
                 msg += (str(Var.vietnamese_dict.get(Var.check_process_dict.get(path))) + ", ")
 
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': Var.vietnamese_dict.get(Var.EnumVietnamese.NOT_YET_TRANSLATE),
-                'message': msg,
-                'type': Var.toast_type_dict.get(Var.EnumToastType.WARNING),
-                'sticky': False,
-            }
-        }
+        return self._send_client_msg(
+            Var.vietnamese_dict.get(Var.EnumVietnamese.NOT_YET_TRANSLATE),
+            msg,
+            Var.toast_type_dict.get(Var.EnumToastType.WARNING)
+        )
 
 
     def action_approve_form(self):
@@ -176,41 +206,24 @@ class WorkerAction(models.Model):
         new_rec = self.copy()
         self.unlink()
 
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': Var.vietnamese_dict.get(Var.EnumVietnamese.APPROVED_SUCCESSFULLY),
-                'message': "",
-                'type': Var.toast_type_dict.get(Var.EnumToastType.SUCCESS),
-                'sticky': False,
-            }
-        }
+        return self._send_client_msg(
+            Var.vietnamese_dict.get(Var.EnumVietnamese.APPROVED_SUCCESSFULLY),
+            "",
+            Var.toast_type_dict.get(Var.EnumToastType.SUCCESS)
+        )
 
 
     def action_change_lang(self):
         user = self.env.user
 
-        new_lang = 'vi_VN' if user.lang == 'zh_TW' else 'zh_TW'
+        if self._check_install_lang():
+            return self._send_client_msg(
+                Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
+                "",
+                Var.toast_type_dict.get(Var.EnumToastType.WARNING)
+            )
 
-        lang_installed = self.env['res.lang'].search([
-            ('code', '=', new_lang),
-            ('active', '=', True)
-        ], limit=1)
-
-        if not lang_installed:
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
-                    'message': new_lang,
-                    'type': Var.toast_type_dict.get(Var.EnumToastType.WARNING),
-                    'sticky': False,
-                }
-            }
-
-        user.lang = new_lang
+        user.lang = 'vi_VN' if user.lang == 'zh_TW' else 'zh_TW'
 
         return {
             'type': 'ir.actions.client',

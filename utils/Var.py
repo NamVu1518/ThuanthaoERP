@@ -41,7 +41,7 @@ vietnamese_dict = {
     EnumVietnamese.RECRUITER: "Nhà tuyển dụng",
     EnumVietnamese.TRANSLATE_SUCCESS_ALL: "Hoàn thành phiên dịch",
     EnumVietnamese.APPROVED_SUCCESSFULLY: "Duyệt thành công",
-    EnumVietnamese.LANGUAGE_CHANGE_ERROR: "Có lỗi trong quá trình chuyển đổi ngôn ngữ, hãy liên hệ quản trị viên"
+    EnumVietnamese.LANGUAGE_CHANGE_ERROR: "Có lỗi trong quá trình chuyển đổi/sử dụng ngôn ngữ, hãy liên hệ quản trị viên"
 }
 
 check_process_dict = {
