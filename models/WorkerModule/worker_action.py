@@ -107,7 +107,7 @@ class WorkerAction(models.Model):
         'relative_in_Taiwan_job', 'major', 'broke', 'recruiter'
     )
     def _compute_process_trans_store(self):
-        if self._is_install_lang():
+        if not self._is_install_lang():
             return
 
         fields_to_check = [
@@ -115,6 +115,8 @@ class WorkerAction(models.Model):
             'mother_job.name', 'partner_job.name', 'relationship_with_relative_in_Taiwan.name',
             'relative_in_Taiwan_job.name', 'major.name', 'broke.name', 'recruiter.name'
         ]
+
+        print(self)
 
         for rec in self:
             total = 0

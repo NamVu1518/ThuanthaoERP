@@ -40,11 +40,13 @@ class Children(models.Model):
             self.birth_year = date.today().year - self.age
 
 
-    @api.model
-    def create(self, vals):
-        if vals.get("age") and not vals.get("birth_year"):
-            vals["birth_year"] = date.today().year - vals["age"]
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("age") and not vals.get("birth_year"):
+                vals["birth_year"] = date.today().year - vals["age"]
+        records = super().create(vals_list)
+        return records
 
 
     def write(self, vals):

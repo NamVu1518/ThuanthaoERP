@@ -43,7 +43,7 @@ class Worker(models.Model):
         "worker.source",
         string="Source",
         index=True,
-        ondeleta="set null"
+        ondelete="set null"
     )
     code = fields.Char(
         store=True,

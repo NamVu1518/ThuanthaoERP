@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from odoo.modules.module import get_module_resource
+from odoo.tools.misc import file_path
 
 class EnumGender(Enum):
     MALE = auto()
@@ -110,8 +110,8 @@ state_code_dict = {
 }
 year_start = 2000
 template_path_dict = {
-    EnumGender.MALE: get_module_resource("worker", "static", "src", "template", "template_male.docx"),
-    EnumGender.FEMALE: get_module_resource("worker", "static", "src", "template", "template_female.docx"),
+    EnumGender.MALE: file_path("worker/static/src/template/template_male.docx"),
+    EnumGender.FEMALE: file_path("worker/static/src/template/template_female.docx"),
 }
 
 
