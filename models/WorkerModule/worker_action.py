@@ -91,7 +91,7 @@ class WorkerAction(models.Model):
             rec.process_translate = f"{rec.process_trans_store:.0f} %"
 
 
-    def _check_install_lang(self):
+    def _is_install_lang(self):
         Lang = self.env['res.lang']
         lang_vi = Lang.search([('code', '=', 'vi_VN')], limit=1)
         lang_zh = Lang.search([('code', '=', 'zh_TW')], limit=1)
@@ -162,7 +162,7 @@ class WorkerAction(models.Model):
     def action_check_info(self):
         self.ensure_one()
 
-        if self._check_install_lang():
+        if not self._is_install_lang():
             return self._send_client_msg(
                 Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
                 "",
@@ -216,7 +216,7 @@ class WorkerAction(models.Model):
     def action_change_lang(self):
         user = self.env.user
 
-        if self._check_install_lang():
+        if not self._is_install_lang():
             return self._send_client_msg(
                 Var.vietnamese_dict.get(Var.EnumVietnamese.LANGUAGE_CHANGE_ERROR),
                 "",
