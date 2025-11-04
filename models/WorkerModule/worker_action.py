@@ -107,7 +107,7 @@ class WorkerAction(models.Model):
         'relative_in_Taiwan_job', 'major', 'broke', 'recruiter'
     )
     def _compute_process_trans_store(self):
-        if self._check_install_lang():
+        if self._is_install_lang():
             return
 
         fields_to_check = [
