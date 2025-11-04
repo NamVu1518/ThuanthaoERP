@@ -4,6 +4,8 @@ from odoo.addons.worker.utils import NoAccentVietnamese
 from odoo.addons.worker.utils import FormatDateForTaiwanFormat
 from odoo.addons.worker.utils import Var
 from docxtpl import DocxTemplate, InlineImage, RichText
+import base64
+from docx.shared import Cm
 
 
 class WorkerLogic(models.Model):
