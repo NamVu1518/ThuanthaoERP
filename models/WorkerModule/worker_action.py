@@ -170,6 +170,7 @@ class WorkerAction(models.Model):
                 Var.toast_type_dict.get(Var.EnumToastType.WARNING)
             )
 
+        self._compute_process_trans_store()
         self._compute_process_translate()
         if self.process_translate == "100 %":
             return self._send_client_msg(
