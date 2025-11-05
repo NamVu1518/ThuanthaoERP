@@ -87,6 +87,7 @@ class WorkerAction(models.Model):
 
     @api.depends('process_trans_store')
     def _compute_process_translate(self):
+        self._compute_process_trans_store()
         for rec in self:
             rec.process_translate = f"{rec.process_trans_store:.0f} %"
 
@@ -115,8 +116,6 @@ class WorkerAction(models.Model):
             'mother_job.name', 'partner_job.name', 'relationship_with_relative_in_Taiwan.name',
             'relative_in_Taiwan_job.name', 'major.name', 'broke.name', 'recruiter.name'
         ]
-
-        print(self)
 
         for rec in self:
             total = 0
