@@ -17,7 +17,7 @@
                                 type="object"
                                 string="Check Translate"
                                 class="btn-primary me-2"
-                                groups="worker.group_worker_manager,worker.group_worker_sub_manager"/>
+                                groups="worker.group_worker_manager"/>
                             <button name="action_change_lang"
                                 type="object"
                                 string="Change Language"
@@ -259,7 +259,7 @@
                     <field name="age"/>
                     <field name="province"/>
                     <field name="source"/>
-                    <field name="process_translate"/>
+                    <field name="process_translate" groups="worker.group_worker_manager"/>
                 </list>
             </field>
         </record>

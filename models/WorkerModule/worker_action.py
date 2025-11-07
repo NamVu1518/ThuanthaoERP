@@ -135,7 +135,10 @@ class WorkerAction(models.Model):
                 if trans_str and root_str != trans_str:
                     count += 1
 
-            rec.process_trans_store = (count / total) * 100 if total > 0 else 0
+            process_trans_after_compute = (count / total) * 100 if total > 0 else 0
+
+            if rec.process_trans_store != process_trans_after_compute:
+                rec.process_trans_store = process_trans_after_compute
 
 
     def action_download_docx(self):
