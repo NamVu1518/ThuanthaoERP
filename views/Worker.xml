@@ -259,6 +259,7 @@
                     <field name="age"/>
                     <field name="province"/>
                     <field name="source"/>
+                    <field name="create_date"/> 
                     <field name="process_translate" groups="worker.group_worker_manager"/>
                 </list>
             </field>

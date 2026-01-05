@@ -5,5 +5,5 @@ class Major(models.Model):
     _name = 'worker.major'
     _description = 'Description'
 
-    name = fields.Char(String="Major", required=True, translate=True)
+    name = fields.Char(string="Major", required=True, translate=True)
 

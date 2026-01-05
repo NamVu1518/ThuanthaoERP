@@ -55,8 +55,6 @@ class Worker(models.Model):
     age = fields.Integer(
         string="Age",
         compute="_compute_age",
-        store=True,
-        readonly=True
     )
     gender = fields.Selection(
         [
@@ -71,18 +69,18 @@ class Worker(models.Model):
     place_of_issue = fields.Many2one(
         "worker.province",
         string="Place Of Issue",
-        ondeleta="set null"
+        ondelete="set null"
     )
     religion = fields.Many2one(
         "worker.religion",
         string="Religion",
-        ondeleta="set null"
+        ondelete="set null"
     )
     dob = fields.Date(string="Date Of Birth")
     pob = fields.Many2one(
         "worker.province",
         string="Place of birth",
-        ondeleta="set null"
+        ondelete="set null"
     )
 
 
@@ -97,7 +95,7 @@ class Worker(models.Model):
         "worker.district",
         domain="[('province_id', '=', province)]",
         string="District",
-        ondeleta="set null"
+        ondelete="set null"
     )
     address = fields.Char(string="Address")
 
